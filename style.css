@@ -140,7 +140,7 @@ main {
 /* Bordered image box */
 .project {
   width: 600px;
-  height: 300px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
