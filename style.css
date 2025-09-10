@@ -181,7 +181,7 @@ main {
 
   background: #fff;
   border: 1px solid #000000;
-  max-width: 900px;            /* sets a max width */
+  max-width: 100px;            /* sets a max width */
   width: 100%;                 /* ensures it stays responsive */
   box-sizing: border-box;   
   margin-left: auto;             /* push it to the right */
