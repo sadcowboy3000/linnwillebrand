@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Click to show project details
  document.addEventListener("click", (e) => {
-    const projectEl = e.target.closest(".project, li[data-project]");
+    const projectEl = e.target.closest(".project, li[data-project], .project-link");
     if (!projectEl) return;
 
     const projectId = projectEl.dataset.project;

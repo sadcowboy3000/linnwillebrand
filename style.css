@@ -11,6 +11,47 @@ body {
   color: #333;
 }
 
+.main-nav {
+  text-decoration: underline !important;
+}
+
+/* NAVBAR WRAPPER (Cargo pinned page) */
+#A2614359952 {
+  --pin-padding-top: 0px;
+  --pin-padding-bottom: 0px;
+  top: 0;
+  z-index: 299;
+}
+
+/* NAVBAR GRID / LAYOUT */
+#A2614359952 .page-layout,
+#A2614359952 .page-content {
+  width: 100%;
+}
+
+/* MAIN NAV LINK */
+.main-nav {
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* HOVER FOR REGULAR LINKS */
+.main-nav:hover {
+  text-decoration: underline;
+}
+
+/* DATA-PROJECT LINKS (converted spans) */
+.project-link {
+  cursor: pointer;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+
+
 .content-wrapper {
   display: flex;
   align-items: flex-start;
@@ -20,25 +61,13 @@ body {
   flex-wrap: wrap;
 }
 
-/* Title section on the left */
-.title-container {
-  flex: 1 1 00px; /* start smaller */
-  max-width: 400px; /* prevents it from growing too wide */
-  margin: 0;
-  padding-top: 4rem;
-}
 
-.title-container p {
-  font-size: clamp(1.5rem, 3vw, 6rem);
-  font-weight: bold;
-  text-align: left;
-  display: inline-block;  /* required for transform on inline elements */
-  transform: scaleY(1.9);
-  padding-top: 1rem;
-
+.page li{
+  list-style: none;
   color: blue;
-
-  line-height: 1; /* 1.5 times the font size */
+  font-size: 2rem;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .nav-container {
