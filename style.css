@@ -74,6 +74,15 @@ column-unit[slot="1"] {
   cursor: pointer;
 }
 
+.nav-icon {
+  height: 1em;        /* matches the text size */
+  width: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
 /* Prevent line break inside italic tagline */
 column-unit[slot="0"] i {
   white-space: nowrap;
@@ -81,6 +90,11 @@ column-unit[slot="0"] i {
 
 column-unit[slot="0"] i br {
   display: none;
+}
+
+.header {
+  font-size: 6rem;
+  padding: 1rem;
 }
 
 /* =========================
@@ -179,15 +193,21 @@ ul {
   pointer-events: none;         /* clicks go to .project */
 }
 
-/* Hover: grow bar height + reveal image */
-.project:hover {
-  height: 400px;                /* expanded height — adjust as you like */
-  border-color: #000;
-}
 
+/* Hover: grow bar height + reveal image */
+/*
+.project:hover {
+  height: 400px;                
+  border-color: #000;
+}*/
+
+/*
 .project:hover .project-image {
   opacity: 1;
   transform: scale(1.08);
+}*/
+.project:hover{
+  border-bottom: 1px solid #000;
 }
 
 /* =========================
@@ -221,7 +241,7 @@ ul {
 }
 
 .project:hover .project-meta span {
-  color: white;
+  font-size: 2rem;
 }
 
 

@@ -128,6 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (detailToShow) {
       detailToShow.classList.remove("hidden");
       if (gallery) gallery.classList.add("hidden");
+
+      document.getElementById("header").classList.add("hidden");
+
       window.scrollTo({ top: 0, behavior: "instant" });
     }
   });
@@ -137,6 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener('click', () => {
       projectDetails.forEach(section => section.classList.add('hidden'));
       gallery.classList.remove('hidden');
+
+      document.getElementById("header").classList.remove("hidden");
+
       window.scrollTo({ top: lastScrollY, behavior: "instant" });
       removeOverlayImages();
       outsideElements.forEach(el => el.classList.remove('dim-outside-gallery'));
