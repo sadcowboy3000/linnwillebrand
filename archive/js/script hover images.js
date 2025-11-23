@@ -86,10 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.overlay-image').forEach(img => img.remove());
   }
 
-  /* ============================================
-     DISABLE HOVER OVERLAY EFFECT (COMMENTED OUT)
-     ============================================
-
   // Hover effect
   gallery.querySelectorAll('.project').forEach(project => {
     const projectId = project.dataset.project;
@@ -111,19 +107,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  ============================================= */
-
   // Click to show project details
-  document.addEventListener("click", (e) => {
+ document.addEventListener("click", (e) => {
     const projectEl = e.target.closest(".project, li[data-project], .project-link");
     if (!projectEl) return;
 
     const projectId = projectEl.dataset.project;
 
+    // Save scroll position
     lastScrollY = window.scrollY;
 
+    // Hide all project details
     projectDetails.forEach(section => section.classList.add("hidden"));
 
+    // Show selected project detail
     const detailToShow = document.getElementById(`project-detail-${projectId}`);
     if (detailToShow) {
       detailToShow.classList.remove("hidden");
