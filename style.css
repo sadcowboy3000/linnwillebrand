@@ -1,4 +1,6 @@
-/* Base reset */
+/* =========================
+   Base reset & typography
+   ========================== */
 * {
   margin: 0;
   padding: 0;
@@ -6,16 +8,16 @@
 }
 
 body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   background: #fafafa;
   color: #333;
 }
 
-.main-nav {
-  text-decoration: underline !important;
-}
+/* =========================
+   NAVBAR (Cargo pinned page)
+   ========================== */
 
-/* NAVBAR WRAPPER (Cargo pinned page) */
+/* Wrapper */
 #A2614359952 {
   --pin-padding-top: 0px;
   --pin-padding-bottom: 0px;
@@ -23,149 +25,132 @@ body {
   z-index: 299;
 }
 
-/* NAVBAR GRID / LAYOUT */
+/* Layout inside Cargo page */
 #A2614359952 .page-layout,
 #A2614359952 .page-content {
   width: 100%;
 }
 
-/* MAIN NAV LINK */
+/* Make the title + links sit in a single row */
+.title-container {
+  display: flex;
+  width: 100%;
+}
+
+/* The column that actually holds the nav */
+column-set {
+  display: block;
+}
+
+column-unit[slot="0"] {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  white-space: nowrap;          /* keep everything on one line */
+  padding: 0.75rem 1rem 0 1rem; /* small breathing room */
+}
+
+/* Let the empty right column exist but not interfere */
+column-unit[slot="1"] {
+  display: block;
+}
+
+/* Main nav links */
 .main-nav {
   font-family: inherit;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: underline;
   color: inherit;
 }
 
-/* HOVER FOR REGULAR LINKS */
-.main-nav:hover {
-  text-decoration: underline;
-  color: blue;
-}
-
+/* Title link */
 #title_text {
   color: blue;
 }
 
-/* DATA-PROJECT LINKS (converted spans) */
+/* Hover state for all nav links/spans */
+.main-nav:hover,
+.project-link:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+/* Data-project spans behave like links */
 .project-link {
   cursor: pointer;
 }
 
-.project-link:hover {
-  text-decoration: underline;
+/* Prevent line break inside the italic tagline
+   and hide the <br> that’s in the HTML */
+column-unit[slot="0"] i {
+  white-space: nowrap;
 }
 
+column-unit[slot="0"] i br {
+  display: none;
+}
+
+/* =========================
+   Layout wrappers
+   ========================== */
 
 .content-wrapper {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 2rem;
-  padding: 1rem;
-  flex-wrap: wrap;
+  padding: 0 1rem 4rem 1rem; /* extra bottom so footer doesn't cover stuff */
 }
 
-
-.page li{
-  list-style: none;
-  color: blue;
-  font-size: 2rem;
-  text-decoration: underline;
-  cursor: pointer;
+main {
+  padding-top: 0.5rem;
 }
 
-.nav-container {
-  flex: 1 1 300px;
-  margin: 0;
-  padding-top: 8rem;
-}
-.nav-container li {
-list-style: none;
-color: blue;
-font-size: 2rem;
-text-decoration: underline;
-cursor: pointer;
-}
-
-.gif-container {
-  flex: 1 1 300px;
-  margin: 0;
-  padding-top: 2rem;
-}
-.gif-container img {
-  width: 50%;
-  height: auto;
-  object-fit: cover;
-  display: block;
-}
+/* =========================
+   Two-column text sections
+   ========================== */
 
 .two-column {
   padding: 1rem;
- display: grid;
- grid-template-columns: 1fr 1fr;
- gap: 2rem;
- text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  text-align: left;
 }
 
-.two-column h2{
+.two-column h2 {
   font-size: 1.3rem;
   text-decoration: underline;
   color: blue;
   font-weight: normal;
   text-align: left;
-  align-self: flex-start;
 }
 
-.two-column p{
+.two-column p {
   font-size: 1rem;
-  color: #000000;
+  color: #000;
   text-align: left;
   margin-top: 0.5rem;
-  align-self: flex-start; /* aligns the paragraph to the left */
   line-height: 1.2rem;
 }
 
 .two-column > * {
- text-align: left;
+  text-align: left;
 }
 
 ul {
   list-style-type: none;
 }
 
-
-/*header {
-  text-align: center;
-  padding: 1rem ;
-}*/
-
-/*.head-container {
-  background-image: url(assets/linn%20willebrand,%20graphic%20designer.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: left center;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0 auto;
-  background-clip: padding-box;
-}*/
-
-main {
-  padding: 1rem;
-}
+/* =========================
+   Image grid (gallery)
+   ========================== */
 
 .image-grid {
   display: grid;
-  max-width: 1000px;  /* max width */
-  max-height: 250px;
+  max-width: 1000px;
   grid-template-columns: repeat(2, 2fr);
   gap: 1rem;
- 
-  margin-left: auto;             /* push it to the right */
-
+  margin-left: auto;   /* push to the right */
 }
 
 /* Container holds image box and title */
@@ -186,8 +171,8 @@ main {
   background: #fff;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s;
-  border: 1px solid #000000;
+  transition: transform 0.2s, border-color 0.2s;
+  border: 1px solid #000;
 }
 
 .project img {
@@ -195,11 +180,11 @@ main {
   height: 100%;
   object-fit: cover;
   display: block;
- }
+}
 
 .project:hover {
   transform: scale(1.02);
-  border-color: #000;  /* visible border on hover */
+  border-color: #000;
 }
 
 /* Title below the project */
@@ -210,20 +195,26 @@ main {
   font-weight: normal;
   margin-top: 0.5rem;
   text-align: left;
-  align-self: flex-start; /* makes sure the h2 aligns left within the container */
+  align-self: flex-start;
 }
 
+/* =========================
+   Project detail view
+   ========================== */
 
-/* Detail view */
 .project-detail {
-
   background: #fff;
-  border: 1px solid #000000;
-  max-width: 1000px;            /* sets a max width */
-  width: 100%;                 /* ensures it stays responsive */
-  box-sizing: border-box;   
-  margin-left: auto;             /* push it to the right */
-  margin-right: 1rem;  /* includes padding in total width */
+  border: 1px solid #000;
+  max-width: 1000px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: 1rem;
+  padding: 1rem;
+}
+
+.hidden {
+  display: none;
 }
 
 iframe {
@@ -233,57 +224,18 @@ iframe {
   padding-top: 1rem;
 }
 
-
-.hidden {
-  display: none;
-}
-
-footer {
- position: fixed;
- left: 0;
- bottom: 0;
- width: auto;
- background: rgba(255, 255, 255, 0);
- display: block;
- margin: 0;
- padding: 1rem;
- z-index: 100;
-}
-
-/* Responsive tweaks */
-/*@media (max-width: 900px) {
-  .image-grid {
-   grid-template-columns: 1fr;
-    padding: 0 1rem;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    align-items: center;
-    justify-content: center;
-    
-  }
-
-}
-
-@media (max-width: 600px) {
-  .image-grid {
-    grid-template-columns: 1fr;
-    padding: 0 0.5rem;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-}*/
+/* Media inside detail view */
 .project-media {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .image-grid-1 {
   display: grid;
- 
   grid-template-columns: repeat(2, 1fr);
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .image-grid-1 img {
@@ -297,20 +249,19 @@ footer {
   height: auto;
 }
 
+/* =========================
+   Overlay image & dimming
+   ========================== */
 
 .overlay-image {
-  position: absolute;   /* relative to page */
+  position: absolute;
   width: 25rem;
   height: auto;
   z-index: 9999;
-  pointer-events: none; /* don’t block clicks */
+  pointer-events: none;
   transition: transform 0.2s, opacity 0.2s;
   border: #000 solid 1px;
   box-shadow: #333 2px 2px 6px;
-}
-/* Allow clicks to pass through overlay images */
-.overlay-image {
-  pointer-events: none;
 }
 
 /* Keep gallery projects clickable even when page is dimmed */
@@ -324,16 +275,52 @@ footer {
   transition: opacity 0.3s;
 }
 
-/* Make sure the hovered project stays fully visible */
 .project.highlighted {
   opacity: 1 !important;
 }
 
+/* =========================
+   Footer
+   ========================== */
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0);
+  padding: 1rem;
+  z-index: 100;
+}
 
-@media (max-width: 600px) {
-  .title-container {
-    flex-basis: 50px;
-    max-width: 900px;
+/* =========================
+   Responsive tweaks
+   ========================== */
+
+/* Stack two-column content and gallery on small screens */
+@media (max-width: 900px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .image-grid {
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  .project-detail {
+    margin-right: auto;
+  }
+}
+
+/* On very small screens, allow nav to wrap normally so it doesn't overflow */
+@media (max-width: 700px) {
+  column-unit[slot="0"] {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  column-unit[slot="0"] i br {
+    display: inline;
   }
 }
