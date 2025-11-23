@@ -192,10 +192,13 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;                   /* invisible by default */
+  opacity: 1;                
+  filter: blur(12px);   /* BLUR */
   transform: scale(1.02);
   transition: opacity 0.4s ease, transform 0.4s ease;
   pointer-events: none;         /* clicks go to .project */
+
+
 }
 
 /* Hover: grow bar height + reveal image */
@@ -205,8 +208,10 @@ ul {
 }
 
 .project:hover .project-image {
+  filter: blur(0px);
   opacity: 1;
   transform: scale(1.08);
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 /* =========================
