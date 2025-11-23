@@ -14,32 +14,19 @@ body {
 }
 
 /* =========================
-   NAVBAR (Cargo pinned page)
+   NAVBAR
    ========================== */
 
-#A2614359952 {
-  --pin-padding-top: 0px;
-  --pin-padding-bottom: 0px;
-  top: 0;
+#A2614359952.nav-shell {
+  width: 100%;
   z-index: 299;
 }
 
-#A2614359952 .page-layout,
-#A2614359952 .page-content {
-  width: 100%;
-}
-
-#A2614359952 .page-content {
-  width: 100%;
-  display: flex;
-}
-
-
 .title-container {
-  display: flex;
   width: 100%;
 }
 
+/* Rad med allt i */
 .nav-row {
   display: flex;
   align-items: center;
@@ -48,24 +35,28 @@ body {
   gap: 0.5rem;
 }
 
-.nav-left {
+/* Textdelen (titel + länkar + tagline) */
+.nav-main {
   display: flex;
+  align-items: baseline;
   gap: 0.5rem;
-  align-items: center;
-  white-space: nowrap;
-  flex: 1;      /*  Gör att nav-left fyller hela bredden */
+  white-space: nowrap;     /* håll allt på en rad */
+  flex: 0 1 auto;          /* ta så mycket plats som behövs, men inte oändligt */
 }
 
-
+/* GIF-raden som fyller ut */
 .nav-gif-strip {
-  flex: 1;  
-  height: 1.5em;
-  background-image: url("assets/Decor/HorseEdit.gif");
+  flex: 1;                           /* ta allt utrymme som finns kvar */
+  height: 2em;
+  background-image: url("assets/Decor/HorseEdit.gif");  /* ⬅ rätt sökväg här */
   background-repeat: repeat-x;
-  background-size: auto 100%;
+  gap: 2em;
+  background-size: auto 100%;        /* höjden styr, bredden följer */
   display: block;
+  min-width: 0;
 }
 
+/* Länkarna */
 .main-nav {
   cursor: pointer;
   text-decoration: underline;
@@ -84,6 +75,14 @@ body {
 .project-link {
   cursor: pointer;
 }
+
+/* Tagline */
+.tagline {
+  display: inline-block;
+}
+/* =========================
+   Header
+   ========================== */
 
 .header {
   font-size: 6rem;
