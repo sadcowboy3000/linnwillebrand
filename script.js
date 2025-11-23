@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ============================================
      DISABLE HOVER OVERLAY EFFECT (COMMENTED OUT)
-     ============================================
+     ============================================*/
 
   // Hover effect
   gallery.querySelectorAll('.project').forEach(project => {
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  ============================================= */
+  /*============================================= */
 
   // Click to show project details
   document.addEventListener("click", (e) => {
