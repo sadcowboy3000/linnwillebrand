@@ -376,13 +376,39 @@ footer {
   }
 }
 
+/* ---------- MOBILE NAV ---------- */
 @media (max-width: 700px) {
-  .nav-row  {
-    flex-wrap: wrap;
-    white-space: normal;
+
+  .title-container {
+    font-size: 1rem;              /* slightly smaller on mobile */
   }
 
-  .nav-row  i br {
-    display: inline;
+  .nav-row {
+    flex-direction: column;       /* stack the whole nav vertically */
+    align-items: flex-start;      /* left-align (change to center if you want) */
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-main {
+    display: flex;
+    flex-direction: column;       /* title, tagline, links on separate lines */
+    align-items: flex-start;
+    white-space: normal;          /* allow text to wrap */
+    gap: 0.25rem;
+  }
+
+  .tagline {
+    font-size: 0.9em;
+    max-width: 26rem;             /* prevent super long lines */
+  }
+
+  .left-links {
+    display: flex;
+    flex-wrap: wrap;              /* links can break onto multiple lines */
+    gap: 0.5rem;
   }
 }
+
+
