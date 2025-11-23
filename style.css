@@ -17,7 +17,6 @@ body {
    NAVBAR (Cargo pinned page)
    ========================== */
 
-/* Wrapper */
 #A2614359952 {
   --pin-padding-top: 0px;
   --pin-padding-bottom: 0px;
@@ -25,36 +24,48 @@ body {
   z-index: 299;
 }
 
-/* Layout inside Cargo page */
 #A2614359952 .page-layout,
 #A2614359952 .page-content {
   width: 100%;
 }
 
-/* Make the title + links sit in a single row */
+#A2614359952 .page-content {
+  width: 100%;
+  display: flex;
+}
+
+
 .title-container {
   display: flex;
   width: 100%;
 }
 
-/* Fake Cargo tags as layout */
-column-set {
-  display: block;
-}
-
-column-unit[slot="0"] {
+.nav-row {
   display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  white-space: nowrap;
-  padding: 0.75rem 1rem 0 1rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  gap: 0.5rem;
 }
 
-column-unit[slot="1"] {
+.nav-left {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  white-space: nowrap;
+  flex: 1;      /*  Gör att nav-left fyller hela bredden */
+}
+
+
+.nav-gif-strip {
+  flex: 1;  
+  height: 1.5em;
+  background-image: url("assets/Decor/HorseEdit.gif");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
   display: block;
 }
 
-/* NAV LINKS */
 .main-nav {
   cursor: pointer;
   text-decoration: underline;
@@ -72,24 +83,6 @@ column-unit[slot="1"] {
 
 .project-link {
   cursor: pointer;
-}
-
-.nav-icon {
-  height: 1em;        /* matches the text size */
-  width: auto;
-  object-fit: contain;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-
-/* Prevent line break inside italic tagline */
-column-unit[slot="0"] i {
-  white-space: nowrap;
-}
-
-column-unit[slot="0"] i br {
-  display: none;
 }
 
 .header {
@@ -371,13 +364,3 @@ footer {
   }
 }
 
-@media (max-width: 700px) {
-  column-unit[slot="0"] {
-    flex-wrap: wrap;
-    white-space: normal;
-  }
-
-  column-unit[slot="0"] i br {
-    display: inline;
-  }
-}
