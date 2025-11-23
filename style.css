@@ -40,6 +40,11 @@ body {
 /* HOVER FOR REGULAR LINKS */
 .main-nav:hover {
   text-decoration: underline;
+  color: blue;
+}
+
+#title_text {
+  color: blue;
 }
 
 /* DATA-PROJECT LINKS (converted spans) */
