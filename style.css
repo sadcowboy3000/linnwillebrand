@@ -14,47 +14,62 @@ body {
 }
 
 /* =========================
-   NAVBAR (Cargo pinned page)
+   NAVBAR
    ========================== */
 
-/* Wrapper */
-#A2614359952 {
-  --pin-padding-top: 0px;
-  --pin-padding-bottom: 0px;
-  top: 0;
+#A2614359952.nav-shell {
+  width: 100%;
   z-index: 299;
+  padding-top: .5rem;
 }
 
-/* Layout inside Cargo page */
-#A2614359952 .page-layout,
-#A2614359952 .page-content {
-  width: 100%;
-}
-
-/* Make the title + links sit in a single row */
 .title-container {
-  display: flex;
   width: 100%;
+  font-size: 1.3em;
+  margin-top: .5rem;
 }
 
-/* Fake Cargo tags as layout */
-column-set {
-  display: block;
+/* Rad med allt i */
+.nav-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  gap: 0.5rem;
 }
 
-column-unit[slot="0"] {
+/* Textdelen (titel + länkar + tagline) */
+.nav-main {
   display: flex;
   align-items: baseline;
-  gap: 0.4rem;
+  gap: 0.5rem;
   white-space: nowrap;
-  padding: 0.75rem 1rem 0 1rem;
+  flex: 1;
 }
 
-column-unit[slot="1"] {
+.left-links {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+
+
+
+/* GIF-raden som fyller ut */
+.nav-gif-strip {
+  flex: 1;                           /* ta allt utrymme som finns kvar */
+  height: 2em;
+  background-image: url("assets/Decor/HorseEdit.gif");  /* ⬅ rätt sökväg här */
+  background-repeat: repeat-x;
+  gap: 2em;
+  background-size: auto 100%;        /* höjden styr, bredden följer */
   display: block;
+  min-width: 0;
 }
 
-/* NAV LINKS */
+/* Länkarna */
 .main-nav {
   cursor: pointer;
   text-decoration: underline;
@@ -74,13 +89,17 @@ column-unit[slot="1"] {
   cursor: pointer;
 }
 
-/* Prevent line break inside italic tagline */
-column-unit[slot="0"] i {
-  white-space: nowrap;
+/* Tagline */
+.tagline {
+  display: inline-block;
 }
+/* =========================
+   Header
+   ========================== */
 
-column-unit[slot="0"] i br {
-  display: none;
+.header {
+  font-size: 6rem;
+  padding: 1rem;
 }
 
 /* =========================
@@ -322,9 +341,9 @@ iframe {
    ========================== */
 
 footer {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   padding: 1rem;
   background: rgba(255, 255, 255, 0);
   z-index: 100;
