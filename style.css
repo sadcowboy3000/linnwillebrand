@@ -133,9 +133,9 @@ ul {
 
 .image-grid {
   display: grid;
-  width: 100%;   /* full width of layout */
-  grid-template-columns: 1fr;  /* ONE column */
-  gap: 0.5rem;   /* spacing between bars */
+  width: 100%;              /* full width of layout */
+  grid-template-columns: 1fr; /* ONE column */
+  /*gap: 0.5rem;*/              /* spacing between bars */
 }
 
 .project-container {
@@ -144,92 +144,100 @@ ul {
   align-items: center;
 }
 
+/* The “row” box */
 .project {
+  position: relative;
   width: 100%;
-  height: 40px;                /* default bar height */
+  height: 40px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border: 1px solid #000;
   cursor: pointer;
+  background: #fff;
 
-  /* Smooth animation for bar height + image scaling */
-  transition: height 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  /* only one horizontal line between rows */
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 0;
+
+/*If gap is needed between bars, uncomment below*/
+ /* border-bottom: 1px solid #000;*/
+
+  transition: height 0.3s ease, border-color 0.3s ease;
 }
 
-/* Hover: grow bar height */
-.project:hover {
-  height: 400px;               /* expanded height — adjust as you like */
-  border-color: #000;
-}
 
-/* Image settings */
-.project img {
+/* Hidden image behind the text */
+.project-image {
+  position: absolute;
+  inset: 0;                     /* top/right/bottom/left: 0 */
   width: 100%;
   height: 100%;
   object-fit: cover;
-
-  /* Optional: smooth zoom */
-  transition: transform 1s ease;
-}
-
-/* Optional: zoom image slightly on hover */
-.project:hover img {
-  transition: transform 1s ease;
+  opacity: 0;                   /* invisible by default */
   transform: scale(1.02);
-  
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;         /* clicks go to .project */
 }
 
-.project-container h2 {
-  font-size: 1.5rem;
-  text-decoration: underline;
-  color: blue;
-  font-weight: normal;
-  margin-top: 0.5rem;
-  align-self: flex-start;
+/* Hover: grow bar height + reveal image */
+.project:hover {
+  height: 400px;                /* expanded height — adjust as you like */
+  border-color: #000;
 }
+
+.project:hover .project-image {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
 /* =========================
-   Project meta
+   Project meta (text inside the bar)
    ========================== */
 
 .project-meta {
+  position: relative;           /* stays above the image */
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
   width: 100%;
-  margin: 0.3rem 0 0rem 0;
+  height: 100%;
+  padding: 0 0.75rem;
   font-size: 1.5rem;
-  align-items: center; /* vertically align center */
-
-  opacity: 0;
-  transition: opacity 0.1s ease;
-  pointer-events: none;
+  align-items: center;          /* vertically center text */
 }
 
-.project-container:hover .project-meta {
-  opacity: 1;
-  pointer-events: auto;
+
+/* add bottom border only on the last project row */
+.project-container:last-child .project {
+  border-bottom: 1px solid #000;
 }
 
-.project-meta span{
-  text-decoration: underline;
+
+
+/* shared text style */
+.project-meta span {
+  text-decoration: none;
   color: blue;
 }
 
+.project:hover .project-meta span {
+  color: white;
+}
+
+
 /* Column alignments */
 .meta-title {
-  justify-self: start;  /* left */
+  justify-self: start;          /* left */
 }
 
 .meta-type {
-  justify-self: center; /* center */
+  justify-self: center;         /* center */
 }
 
 .meta-year {
-  justify-self: end;    /* right */
-  color: #000;
+  justify-self: end;            /* right */
 }
+
 
 
 /* =========================
@@ -242,8 +250,6 @@ ul {
   width: 100%;
   box-sizing: border-box;
   padding: 1rem;
-
-  /* RIGHT aligned */
   margin-left: auto;
   margin-right: 1rem;
 }
