@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gallery = document.getElementById("gallery");
   const projectDetails = document.querySelectorAll(".project-detail");
   const backButtons = document.querySelectorAll(".back-button");
+  const projectsShell = document.querySelector(".projects-shell");
   let lastScrollY = 0;
 
   // Overlay images for each project
@@ -119,28 +120,62 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!projectEl) return;
 
     const projectId = projectEl.dataset.project;
-
     lastScrollY = window.scrollY;
 
+    // Hide all details
     projectDetails.forEach(section => section.classList.add("hidden"));
 
     const detailToShow = document.getElementById(`project-detail-${projectId}`);
-    if (detailToShow) {
-      detailToShow.classList.remove("hidden");
-      if (gallery) gallery.classList.add("hidden");
-      window.scrollTo({ top: 0, behavior: "instant" });
+    if (!detailToShow) return;
+
+    // Reset layout classes
+    if (projectsShell) {
+      projectsShell.classList.remove("detail-open-split", "detail-open-classic");
     }
+
+    // SPECIAL CASE: project 2 (Ordkonst) → split layout 30/70
+    if (projectId === "2") {
+      detailToShow.classList.remove("hidden");
+      if (gallery) {
+        gallery.classList.remove("hidden"); // keep bars visible
+      }
+      if (projectsShell) {
+        projectsShell.classList.add("detail-open-split");
+      }
+    } else {
+      // Classic behavior for all other IDs (including 1,3–6,100,101)
+      detailToShow.classList.remove("hidden");
+      if (gallery) {
+        gallery.classList.add("hidden"); // hide bars
+      }
+      if (projectsShell) {
+        projectsShell.classList.add("detail-open-classic");
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: "instant" });
   });
 
   // Back buttons
   backButtons.forEach(button => {
     button.addEventListener('click', () => {
       projectDetails.forEach(section => section.classList.add('hidden'));
-      gallery.classList.remove('hidden');
+
+      if (gallery) {
+        gallery.classList.remove('hidden');
+      }
+
+      if (projectsShell) {
+        projectsShell.classList.remove("detail-open-split", "detail-open-classic");
+      }
+
       window.scrollTo({ top: lastScrollY, behavior: "instant" });
       removeOverlayImages();
       outsideElements.forEach(el => el.classList.remove('dim-outside-gallery'));
-      gallery.querySelectorAll('.project').forEach(p => p.classList.remove('dimmed', 'highlighted'));
+
+      if (gallery) {
+        gallery.querySelectorAll('.project').forEach(p => p.classList.remove('dimmed', 'highlighted'));
+      }
     });
   });
 });
