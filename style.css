@@ -280,6 +280,10 @@ ul {
   padding: 1rem;
   margin-left: auto;
   margin-right: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; 
 }
 
 .project-description {
@@ -287,6 +291,7 @@ ul {
   line-height: 2rem;
   color: #000;
   margin-bottom: 2rem;
+  padding: .5rem;
 
 }
 .under-text {
@@ -304,7 +309,7 @@ ul {
   color: blue;
   margin-bottom: 1rem;
   display: inline-block;
-  margin-right: 0;
+  align-self: flex-end; 
 }
 
 .hidden {
@@ -329,7 +334,7 @@ iframe {
 .image-grid-1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .image-grid-1 img {
@@ -338,6 +343,7 @@ iframe {
 }
 
 .project-media video {
+  margin-top: .5rem;
   width: 100%;
   height: auto;
 }
