@@ -4,9 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButtons = document.querySelectorAll(".back-button");
   const projectsShell = document.querySelector(".projects-shell");
   const projectCards = document.querySelectorAll(".project");
+  const detailPanel = document.querySelector(".project-detail-panel");
   let lastScrollY = 0;
 
-  // Overlay images config (unchanged)
+  // IDs for pages that should NOT be in the scroll sequence
+  const STATIC_IDS = ["project-detail-100", "project-detail-101"];
+
+  // Overlay images config (unchanged, in case you re-enable later)
   const hoverImagesByProject = {
     1: [
       'assets/FieldDay/FieldDay_2.png',
@@ -88,11 +92,31 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.overlay-image').forEach(img => img.remove());
   }
 
-  /* (hover overlay currently disabled, keeping your comment)
-  ...
-  */
+  // ------------- ACTIVE BAR HELPER -------------
 
-  // Click to show project details
+  function setActiveBar(projectId) {
+    projectCards.forEach(card => {
+      const isActive = projectId && card.dataset.project === projectId;
+      card.classList.toggle("active-project", isActive);
+    });
+  }
+
+  // ------------- PREPARE DATASET ON SECTIONS -------------
+
+  projectDetails.forEach(section => {
+    const match = section.id.match(/project-detail-(.+)/);
+    if (match) {
+      section.dataset.project = match[1]; // "1", "2", "100", "101", ...
+    }
+  });
+
+  // Only the "real" project pages belong to the scroll mode
+  const scrollProjectDetails = Array.from(projectDetails).filter(
+    section => !STATIC_IDS.includes(section.id)
+  );
+
+  // ------------- CLICK HANDLER (MENU + BARS) -------------
+
   document.addEventListener("click", (e) => {
     const projectEl = e.target.closest(".project, li[data-project], .project-link");
     if (!projectEl) return;
@@ -102,44 +126,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
     lastScrollY = window.scrollY;
 
-    // 🔹 highlight the active bar (use the bar that matches data-project)
-    projectCards.forEach(card => card.classList.remove("active-project"));
-    const clickedProjectCard = document.querySelector(`.project[data-project="${projectId}"]`);
-    if (clickedProjectCard) {
-      clickedProjectCard.classList.add("active-project");
-    }
-
-    // Hide all details
-    projectDetails.forEach(section => section.classList.add("hidden"));
-
     const detailToShow = document.getElementById(`project-detail-${projectId}`);
     if (!detailToShow) return;
 
-    // Reset layout classes
+    // Reset layout classes first
     if (projectsShell) {
       projectsShell.classList.remove("detail-open-split", "detail-open-classic");
     }
 
-    // Show the correct detail
-    detailToShow.classList.remove("hidden");
+    // ---- CV / About → CLASSIC MODE (NOT SCROLLING) ----
+    if (detailToShow.id === "project-detail-100" || detailToShow.id === "project-detail-101") {
+      // Hide all details, show only this one
+      projectDetails.forEach(section => section.classList.add("hidden"));
+      detailToShow.classList.remove("hidden");
 
-    // Always show the gallery bars in split mode
+      // No sidebar highlight (no project bar for 100/101)
+      setActiveBar(null);
+
+      // Classic layout (full width detail panel)
+      if (projectsShell) {
+        projectsShell.classList.add("detail-open-classic");
+      }
+
+      if (gallery) {
+        gallery.classList.remove("hidden");
+      }
+
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+
+    // ---- SCROLL MODE (REAL PROJECTS) ----
+
+    // Highlight bar for this project
+    setActiveBar(projectId);
+
+    // Show ONLY the scrollable project pages, hide CV/About
+    projectDetails.forEach(section => {
+      if (STATIC_IDS.includes(section.id)) {
+        section.classList.add("hidden");
+      } else {
+        section.classList.remove("hidden");
+      }
+    });
+
+    // Always show gallery in split mode
     if (gallery) {
       gallery.classList.remove("hidden");
     }
 
-    // 🔹 THIS is what makes the bars shrink + detail appear to the right
+    // Enable split (bars left, scrollable detail right)
     if (projectsShell) {
       projectsShell.classList.add("detail-open-split");
     }
 
-
-    window.scrollTo({ top: 0, behavior: "instant" });
+    // Scroll inside the detail panel if possible, otherwise page
+    if (detailPanel && detailPanel.contains(detailToShow)) {
+      detailToShow.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    } else {
+      detailToShow.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   });
 
-  // Back buttons
+  // ------------- BACK BUTTONS: RETURN TO LANDING -------------
+
   backButtons.forEach(button => {
     button.addEventListener('click', () => {
+      // Hide all details again (back to landing)
       projectDetails.forEach(section => section.classList.add('hidden'));
 
       if (gallery) {
@@ -153,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // remove the active highlight
       projectCards.forEach(card => card.classList.remove("active-project"));
 
-      window.scrollTo({ top: lastScrollY, behavior: "instant" });
+      window.scrollTo({ top: lastScrollY, behavior: "auto" });
       removeOverlayImages();
       outsideElements.forEach(el => el.classList.remove('dim-outside-gallery'));
 
@@ -162,4 +221,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // ------------- INTERSECTION OBSERVER: SCROLL → ACTIVE BAR -------------
+
+  const observerRoot = detailPanel || null;
+
+  const observer = new IntersectionObserver((entries) => {
+    // Pick the entry with the largest visible area
+    let bestEntry = null;
+
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+        bestEntry = entry;
+      }
+    });
+
+    if (bestEntry) {
+      const projectId = bestEntry.target.dataset.project;
+      setActiveBar(projectId);
+    }
+  }, {
+    root: observerRoot,                  // scroll container (detail panel)
+    threshold: [0.1, 0.25, 0.5, 0.75]   // more granular, good for tall sections like Ordkonst
+  });
+
+  // Observe only the scrollable project pages (1,2,3,4,5,6...)
+  scrollProjectDetails.forEach(section => observer.observe(section));
 });

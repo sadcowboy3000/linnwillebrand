@@ -22,7 +22,13 @@ body {
   width: 100%;
   z-index: 299;
   padding-top: .5rem;
+
+  /* 🔹 keep navbar visible */
+  position: sticky;
+  top: 0;
+  background: #fafafa;
 }
+
 
 .title-container {
   width: 100%;
@@ -194,7 +200,7 @@ ul {
   pointer-events: none;
 }
 
-/* Hover: grow bar height + reveal image */
+/* Hover on LANDING: grow bar height + reveal image */
 .project:hover {
   height: 400px;
   border-color: #000;
@@ -206,9 +212,9 @@ ul {
   transition: filter 0.2s ease;
 }
 
-/* Active project bar (when its detail is open) */
+/* Active project bar (used in split mode too) */
 .project.active-project {
-  height: 100px; /* same as your hover height */
+  height: 100px; /* 🔹 this is the “grown” state when active */
 }
 
 /* Keep the image visible for the active bar */
@@ -222,17 +228,15 @@ ul {
   color: white;
 }
 
-/* When bars are retracted, hover grows only to 200px */
+/* When bars are retracted (split mode), hover grows only to 200px */
 .projects-shell.detail-open-split .project:hover {
-  height: 100px;
+  height: 200px;
 }
 
 .projects-shell.detail-open-split .project-meta {
   font-size: 1rem;
   grid-template-columns: minmax(6rem, 1fr) minmax(10rem, 1fr) minmax(6rem, 1fr);
 }
-
-
 
 /* =========================
    Project meta (text inside the bar)
@@ -331,11 +335,15 @@ ul {
   overflow-y: auto;
 }
 
+/* Make the right panel scrollable in split mode */
 .projects-shell.detail-open-split .project-detail-panel {
-  flex: 1 1 auto;    /* ✅ grow into the remaining space */
-  max-width: 100%;   /* ✅ don’t cap at 75% */
+  flex: 1 1 auto;
+  max-width: 100%;
   opacity: 1;
+  max-height: calc(100vh - 6rem); /* fits under nav */
+  overflow-y: auto;
 }
+
 
 
 /* =========================
