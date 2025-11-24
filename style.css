@@ -267,6 +267,7 @@ ul {
 
 .project:hover .project-meta span {
   color: white;
+  transition: 0.3s color ease;
 }
 
 /* Column alignments */
