@@ -325,15 +325,15 @@ ul {
   flex: 0 0 25%;
   max-width: 25%;
   position: sticky;         /* keep visible while scrolling */
-  top: 6rem;                /* adjust to sit under your nav */
+  top: 1rem;                /* adjust to sit under your nav */
   align-self: flex-start;
   height: calc(100vh - 6rem);
   overflow-y: auto;
 }
 
 .projects-shell.detail-open-split .project-detail-panel {
-  flex: 0 0 75%;
-  max-width: 75%;
+  flex: 1 1 auto;    /* ✅ grow into the remaining space */
+  max-width: 100%;   /* ✅ don’t cap at 75% */
   opacity: 1;
 }
 

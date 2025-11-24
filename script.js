@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
       projectsShell.classList.add("detail-open-split");
     }
 
+
     window.scrollTo({ top: 0, behavior: "instant" });
   });
 
