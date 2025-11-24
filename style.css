@@ -233,9 +233,16 @@ ul {
   height: 100px;
 }
 
+/* Disable giant text hover when side menu is active */
+.projects-shell.detail-open-split .project:hover .project-meta span {
+  font-size: inherit !important;
+  color: rgb(255, 255, 255) !important;  /* keep normal color */
+}
+
+
 .projects-shell.detail-open-split .project-meta {
   font-size: 1rem;
-  grid-template-columns: minmax(6rem, 1fr) minmax(10rem, 1fr) minmax(6rem, 1fr);
+  grid-template-columns: minmax(6rem, 1fr) minmax(9rem, 1fr) minmax(6rem, 1fr);
 }
 
 /* =========================
@@ -267,7 +274,7 @@ ul {
 
 .project:hover .project-meta span {
   color: white;
-  transition: 0.s color ease;
+  font-size: 4rem;
 }
 
 /* Column alignments */
@@ -299,7 +306,7 @@ ul {
   flex: 1 1 100%;
   max-width: 100%;
   /* animate shrink */
-  transition: flex-basis 0.5s ease, max-width 0.5s ease;
+  transition: flex-basis 0.4s ease, max-width 0.4s ease;
 }
 
 /* RIGHT column: detail panel */
@@ -309,7 +316,7 @@ ul {
   opacity: 0;
   overflow: hidden;
   /* animate grow + fade in */
-  transition: flex-basis 0.4s ease, max-width 0.4s ease, opacity 0.4s ease;
+  transition: flex-basis 0.4s ease, max-width 0.4s ease, opacity 0.35s ease;
 }
 
 /* (unused right now, but leaving it here is fine) */

@@ -222,7 +222,7 @@ if (detailPanel && detailPanel.contains(detailToShow)) {
       behavior: "smooth"
     });
 
-  }, 500);
+  }, 400);
 }
 
 
