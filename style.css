@@ -143,6 +143,8 @@ main {
 }
 
 ul {
+  font-size: 1rem;
+  line-height: 1.2rem;
   list-style-type: none;
 }
 
