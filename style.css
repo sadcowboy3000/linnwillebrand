@@ -151,11 +151,11 @@ ul {
    Image grid (gallery)
    ========================== */
 
-/* the left column / bars */
+/* the list of bars */
 .image-grid {
   display: grid;
-  width: 100%;
   grid-template-columns: 1fr;
+  /* important: no fixed width here, flex will control it */
 }
 
 .project-container {
@@ -206,6 +206,34 @@ ul {
   transition: filter 0.2s ease;
 }
 
+/* Active project bar (when its detail is open) */
+.project.active-project {
+  height: 100px; /* same as your hover height */
+}
+
+/* Keep the image visible for the active bar */
+.project.active-project .project-image {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+/* Keep the text white like on hover */
+.project.active-project .project-meta span {
+  color: white;
+}
+
+/* When bars are retracted, hover grows only to 200px */
+.projects-shell.detail-open-split .project:hover {
+  height: 100px;
+}
+
+.projects-shell.detail-open-split .project-meta {
+  font-size: 1rem;
+  grid-template-columns: minmax(6rem, 1fr) minmax(10rem, 1fr) minmax(6rem, 1fr);
+}
+
+
+
 /* =========================
    Project meta (text inside the bar)
    ========================== */
@@ -251,50 +279,64 @@ ul {
 }
 
 /* =========================
-   SPLIT LAYOUT (30/70)
+   SPLIT LAYOUT (bars + detail)
    ========================== */
 
 .projects-shell {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  gap: 1rem;
+  column-gap: 1.5rem;          /* space between bars and detail */
 }
 
-/* gallery becomes the left flex child */
+/* LEFT column: gallery/bars */
 #gallery {
   flex: 1 1 100%;
   max-width: 100%;
-  transition: flex-basis 0.4s ease, max-width 0.4s ease;
+  /* animate shrink */
+  transition: flex-basis 0.7s ease, max-width 0.7s ease;
 }
 
-/* detail panel as the right flex child – collapsed by default */
+/* RIGHT column: detail panel */
 .project-detail-panel {
   flex: 0 0 0;
   max-width: 0;
   opacity: 0;
   overflow: hidden;
-  transition: flex-basis 0.4s ease, max-width 0.4s ease, opacity 0.3s ease;
+  /* animate grow + fade in */
+  transition: flex-basis 0.7s ease, max-width 0.7s ease, opacity 0.35s ease;
 }
 
-/* classic mode (non-Ordkonst): gallery hidden via .hidden, details full width */
+/* (unused right now, but leaving it here is fine) */
+.projects-shell.detail-open-classic #gallery {
+  display: none;
+}
+
 .projects-shell.detail-open-classic .project-detail-panel {
   flex: 1 1 100%;
   max-width: 100%;
   opacity: 1;
 }
 
-/* split mode (Ordkonst, project 2): 30/70 split */
+/* SPLIT mode for ALL projects –
+   bars retract left, detail grows on the right */
 .projects-shell.detail-open-split #gallery {
-  flex: 0 0 30%;
-  max-width: 30%;
+  display: block;
+  flex: 0 0 25%;
+  max-width: 25%;
+  position: sticky;         /* keep visible while scrolling */
+  top: 6rem;                /* adjust to sit under your nav */
+  align-self: flex-start;
+  height: calc(100vh - 6rem);
+  overflow-y: auto;
 }
 
 .projects-shell.detail-open-split .project-detail-panel {
-  flex: 0 0 70%;
-  max-width: 70%;
+  flex: 0 0 75%;
+  max-width: 75%;
   opacity: 1;
 }
+
 
 /* =========================
    Project detail view
@@ -335,7 +377,7 @@ ul {
   color: blue;
   margin-bottom: 1rem;
   display: inline-block;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .hidden {
@@ -425,7 +467,6 @@ footer {
   }
 
   .image-grid {
-    width: 100%;
     grid-template-columns: 1fr;
     margin: 1rem auto;
   }
@@ -455,8 +496,6 @@ footer {
   .nav-row {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.75rem 1rem;
-    gap: 0.35rem;
   }
 
   .nav-main {

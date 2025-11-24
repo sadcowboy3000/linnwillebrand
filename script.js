@@ -3,9 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectDetails = document.querySelectorAll(".project-detail");
   const backButtons = document.querySelectorAll(".back-button");
   const projectsShell = document.querySelector(".projects-shell");
+  const projectCards = document.querySelectorAll(".project");
   let lastScrollY = 0;
 
-  // Overlay images for each project
+  // Overlay images config (unchanged)
   const hoverImagesByProject = {
     1: [
       'assets/FieldDay/FieldDay_2.png',
@@ -87,32 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.overlay-image').forEach(img => img.remove());
   }
 
-  /* ============================================
-     DISABLE HOVER OVERLAY EFFECT (COMMENTED OUT)
-     ============================================
-
-  // Hover effect
-  gallery.querySelectorAll('.project').forEach(project => {
-    const projectId = project.dataset.project;
-
-    project.addEventListener('mouseenter', () => {
-      project.classList.add('highlighted');
-      gallery.querySelectorAll('.project').forEach(p => {
-        if (p !== project) p.classList.add('dimmed');
-      });
-      outsideElements.forEach(el => el.classList.add('dim-outside-gallery'));
-      createOverlayImages(projectId);
-    });
-
-    project.addEventListener('mouseleave', () => {
-      project.classList.remove('highlighted');
-      gallery.querySelectorAll('.project').forEach(p => p.classList.remove('dimmed'));
-      outsideElements.forEach(el => el.classList.remove('dim-outside-gallery'));
-      removeOverlayImages();
-    });
-  });
-
-  ============================================= */
+  /* (hover overlay currently disabled, keeping your comment)
+  ...
+  */
 
   // Click to show project details
   document.addEventListener("click", (e) => {
@@ -120,7 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!projectEl) return;
 
     const projectId = projectEl.dataset.project;
+    if (!projectId) return;
+
     lastScrollY = window.scrollY;
+
+    // 🔹 highlight the active bar (use the bar that matches data-project)
+    projectCards.forEach(card => card.classList.remove("active-project"));
+    const clickedProjectCard = document.querySelector(`.project[data-project="${projectId}"]`);
+    if (clickedProjectCard) {
+      clickedProjectCard.classList.add("active-project");
+    }
 
     // Hide all details
     projectDetails.forEach(section => section.classList.add("hidden"));
@@ -133,24 +120,17 @@ document.addEventListener("DOMContentLoaded", () => {
       projectsShell.classList.remove("detail-open-split", "detail-open-classic");
     }
 
-    // SPECIAL CASE: project 2 (Ordkonst) → split layout 30/70
-    if (projectId === "2") {
-      detailToShow.classList.remove("hidden");
-      if (gallery) {
-        gallery.classList.remove("hidden"); // keep bars visible
-      }
-      if (projectsShell) {
-        projectsShell.classList.add("detail-open-split");
-      }
-    } else {
-      // Classic behavior for all other IDs (including 1,3–6,100,101)
-      detailToShow.classList.remove("hidden");
-      if (gallery) {
-        gallery.classList.add("hidden"); // hide bars
-      }
-      if (projectsShell) {
-        projectsShell.classList.add("detail-open-classic");
-      }
+    // Show the correct detail
+    detailToShow.classList.remove("hidden");
+
+    // Always show the gallery bars in split mode
+    if (gallery) {
+      gallery.classList.remove("hidden");
+    }
+
+    // 🔹 THIS is what makes the bars shrink + detail appear to the right
+    if (projectsShell) {
+      projectsShell.classList.add("detail-open-split");
     }
 
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -168,6 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (projectsShell) {
         projectsShell.classList.remove("detail-open-split", "detail-open-classic");
       }
+
+      // remove the active highlight
+      projectCards.forEach(card => card.classList.remove("active-project"));
 
       window.scrollTo({ top: lastScrollY, behavior: "instant" });
       removeOverlayImages();
