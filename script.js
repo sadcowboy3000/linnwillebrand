@@ -7,10 +7,92 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailPanel = document.querySelector(".project-detail-panel");
   let lastScrollY = 0;
 
-  // CV + About → should NOT be part of scroll stack
+  // IDs for pages that should NOT be in the scroll sequence
   const STATIC_IDS = ["project-detail-100", "project-detail-101"];
 
-  // ---------------- ACTIVE BAR HELPER ----------------
+  // Overlay images config (unchanged, in case you re-enable later)
+  const hoverImagesByProject = {
+    1: [
+      'assets/FieldDay/FieldDay_2.png',
+      'assets/FieldDay/FieldDay_3.png',
+      'assets/FieldDay/FieldDay_5.png',
+      'assets/FieldDay/FieldDay_7.png',
+      'assets/FieldDay/FieldDay_4.png'
+    ],
+    2: [
+      'assets/hover2-1.png',
+      'assets/hover2-2.png',
+      'assets/hover2-3.png',
+      'assets/hover2-4.png',
+      'assets/hover2-5.png'
+    ],
+    3: [
+      'assets/hover3-1.png',
+      'assets/hover3-2.png',
+      'assets/hover3-3.png',
+      'assets/hover3-4.png',
+      'assets/hover3-5.png'
+    ],
+    4: [
+      'assets/hover4-1.png',
+      'assets/hover4-2.png',
+      'assets/hover4-3.png',
+      'assets/hover4-4.png',
+      'assets/hover4-5.png'
+    ],
+    5: [
+      'assets/hover5-1.png',
+      'assets/hover5-2.png',
+      'assets/hover5-3.png',
+      'assets/hover5-4.png',
+      'assets/hover5-5.png'
+    ],
+    6: [
+      'assets/hover6-1.png',
+      'assets/hover6-2.png',
+      'assets/hover6-3.png',
+      'assets/hover6-4.png',
+      'assets/hover6-5.png'
+    ]
+  };
+
+  const outsideElements = Array.from(document.body.children).filter(el => el !== gallery);
+
+  function createOverlayImages(projectId) {
+    const images = hoverImagesByProject[projectId] || [];
+    const positions = [];
+    const imgWidth = 150;
+    const imgHeight = 150;
+
+    images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.classList.add('overlay-image');
+
+      let x, y;
+      let attempts = 0;
+
+      do {
+        x = Math.random() * (window.innerWidth - imgWidth - 20) + 10;
+        y = Math.random() * (window.innerHeight - imgHeight - 20) + 10;
+        attempts++;
+      } while (
+        positions.some(pos => Math.hypot(pos.x - x, pos.y - y) < 200) && attempts < 20
+      );
+
+      positions.push({ x, y });
+      img.style.left = `${x}px`;
+      img.style.top = `${y}px`;
+
+      document.body.appendChild(img);
+    });
+  }
+
+  function removeOverlayImages() {
+    document.querySelectorAll('.overlay-image').forEach(img => img.remove());
+  }
+
+  // ------------- ACTIVE BAR HELPER -------------
 
   function setActiveBar(projectId) {
     projectCards.forEach(card => {
@@ -19,21 +101,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------- PREPARE DATASET ON SECTIONS ----------------
+  // ------------- PREPARE DATASET ON SECTIONS -------------
 
   projectDetails.forEach(section => {
     const match = section.id.match(/project-detail-(.+)/);
     if (match) {
-      section.dataset.project = match[1]; // "1", "2", "3", "100", "101", ...
+      section.dataset.project = match[1]; // "1", "2", "100", "101", ...
     }
   });
 
-  // Only the REAL project pages (1–8) belong to the scroll mode
+  // Only the "real" project pages belong to the scroll mode
   const scrollProjectDetails = Array.from(projectDetails).filter(
     section => !STATIC_IDS.includes(section.id)
   );
 
-  // ---------------- CLICK HANDLER (MENU + BARS) ----------------
+  
+
+  // ------------- CLICK HANDLER (MENU + BARS) -------------
 
   document.addEventListener("click", (e) => {
     const projectEl = e.target.closest(".project, li[data-project], .project-link");
@@ -42,46 +126,50 @@ document.addEventListener("DOMContentLoaded", () => {
     const projectId = projectEl.dataset.project;
     if (!projectId) return;
 
-    // remember where we were on the landing list
+    // remember where we were on the landing page
     lastScrollY = window.scrollY;
 
     const detailToShow = document.getElementById(`project-detail-${projectId}`);
     if (!detailToShow) return;
 
-    // Reset layout classes
+    // Reset layout classes first
     if (projectsShell) {
-      projectsShell.classList.remove("detail-open-classic", "detail-open-split");
+      projectsShell.classList.remove("detail-open-split", "detail-open-classic");
     }
 
-    // ---------------- CV / ABOUT (NOT IN SCROLL STACK) ----------------
-    if (STATIC_IDS.includes(detailToShow.id)) {
-      // Hide all details, show only CV/ABOUT
-      projectDetails.forEach(section => section.classList.add("hidden"));
-      detailToShow.classList.remove("hidden");
+    // ---- CV / About → SIDE PANEL, BUT NOT IN SCROLL ----
+if (STATIC_IDS.includes(detailToShow.id)) {
+  // Hide all other detail sections, show only CV / About
+  projectDetails.forEach(section => section.classList.add("hidden"));
+  detailToShow.classList.remove("hidden");
 
-      // Keep split layout: bars left, detail right
-      if (projectsShell) {
-        projectsShell.classList.add("detail-open-split");
-      }
+  // No active bar highlight (since there's no matching project bar)
+  setActiveBar(null);
 
-      if (gallery) {
-        gallery.classList.remove("hidden");
-      }
+  // Use the SPLIT layout: bars on the left, detail panel on the right
+  if (projectsShell) {
+    projectsShell.classList.remove("detail-open-classic");
+    projectsShell.classList.add("detail-open-split");
+  }
 
-      // No sidebar highlight (no bar for 100/101)
-      setActiveBar(null);
+  // Keep gallery visible on the left
+  if (gallery) {
+    gallery.classList.remove("hidden");
+  }
 
-      // Make sure the detail panel is at the top
-      if (detailPanel) {
-        detailPanel.scrollTop = 0;
-      }
+  // Make sure the side panel is scrolled to the top
+  if (detailPanel) {
+    detailPanel.scrollTop = 0;
+  }
 
-      return;
-    }
+  // Do not scroll the whole page
+  return;
+}
 
-    // ---------------- REAL PROJECTS (SCROLL STACK) ----------------
 
-    // Highlight sidebar bar for this project
+    // ---- SCROLL MODE (REAL PROJECTS) ----
+
+    // Highlight bar for this project
     setActiveBar(projectId);
 
     // Show ONLY the scrollable project pages, hide CV/About
@@ -93,72 +181,110 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Always use split layout: bars left, detail right
-    if (projectsShell) {
-      projectsShell.classList.add("detail-open-split");
-    }
-
+    // Always show gallery in split mode
     if (gallery) {
       gallery.classList.remove("hidden");
     }
 
-    // Scroll INSIDE the detail panel to the chosen project
-    if (detailPanel && detailPanel.contains(detailToShow)) {
-      detailPanel.scrollTo({
-        top: detailToShow.offsetTop,
-        behavior: "smooth"
-      });
+    // Enable split (bars left, scrollable detail right)
+    if (projectsShell) {
+      projectsShell.classList.add("detail-open-split");
+      // Freeze bar animations so layout height doesn't shift during scroll
+projectsShell.classList.add("freeze-heights");
+
     }
+
+    // Scroll inside the detail panel to the project (no page jump)
+if (detailPanel && detailPanel.contains(detailToShow)) {
+
+  // Hide panel to prevent any flash of wrong content
+  detailPanel.classList.add("detail-panel-hidden");
+
+  // Delay scroll until layout is stable (bars collapsed)
+  setTimeout(() => {
+
+    const panelRect = detailPanel.getBoundingClientRect();
+    const targetRect = detailToShow.getBoundingClientRect();
+
+    const offsetWithinPanel =
+      detailPanel.scrollTop + (targetRect.top - panelRect.top);
+
+    // Set the scroll *instantly* to the correct position while hidden
+    detailPanel.scrollTop = offsetWithinPanel;
+
+    // Now reveal panel and start smooth scroll (optional)
+    detailPanel.classList.remove("detail-panel-hidden");
+
+    // If you want immediate jump:
+    // (remove this block)
+    detailPanel.scrollTo({
+      top: offsetWithinPanel,
+      behavior: "smooth"
+    });
+
+  }, 500);
+}
+
+
+
+
+
   });
 
-  // ---------------- BACK BUTTONS ----------------
+  // ------------- BACK BUTTONS: RETURN TO LANDING -------------
 
   backButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      // Hide all details
-      projectDetails.forEach(section => section.classList.add("hidden"));
+    button.addEventListener('click', () => {
+      // Hide all details again (back to landing)
+      projectDetails.forEach(section => section.classList.add('hidden'));
 
-      // Show gallery full-width again
       if (gallery) {
-        gallery.classList.remove("hidden");
+        gallery.classList.remove('hidden');
       }
 
-      // Remove split/classic layout
       if (projectsShell) {
         projectsShell.classList.remove("detail-open-split", "detail-open-classic");
       }
 
-      // Remove highlight on bars
+      // remove the active highlight
       projectCards.forEach(card => card.classList.remove("active-project"));
 
-      // Go back to where we were on the landing page
+      // go back to where we were on the landing page
       window.scrollTo({ top: lastScrollY, behavior: "auto" });
+
+      removeOverlayImages();
+      outsideElements.forEach(el => el.classList.remove('dim-outside-gallery'));
+
+      if (gallery) {
+        gallery.querySelectorAll('.project').forEach(p => p.classList.remove('dimmed', 'highlighted'));
+      }
     });
   });
 
-  // ---------------- SCROLL → ACTIVE BAR (INTERSECTION OBSERVER) ----------------
+  // ------------- INTERSECTION OBSERVER: SCROLL → ACTIVE BAR -------------
 
-  if (detailPanel) {
-    const observer = new IntersectionObserver((entries) => {
-      let bestEntry = null;
+  const observerRoot = detailPanel || null;
 
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
-          bestEntry = entry;
-        }
-      });
+  const observer = new IntersectionObserver((entries) => {
+    // Pick the entry with the largest visible area
+    let bestEntry = null;
 
-      if (bestEntry) {
-        const projectId = bestEntry.target.dataset.project;
-        setActiveBar(projectId);
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+        bestEntry = entry;
       }
-    }, {
-      root: detailPanel,                 // only track inside the detail panel
-      threshold: [0.2, 0.5, 0.8]        // decent granularity
     });
 
-    // Observe only the scrollable project pages (1,2,3,4,5,6...)
-    scrollProjectDetails.forEach(section => observer.observe(section));
-  }
+    if (bestEntry) {
+      const projectId = bestEntry.target.dataset.project;
+      setActiveBar(projectId);
+    }
+  }, {
+    root: observerRoot,                  // scroll container (detail panel)
+    threshold: [0.1, 0.25, 0.5, 0.75]
+  });
+
+  // Observe only the scrollable project pages (1,2,3,4,5,6...)
+  scrollProjectDetails.forEach(section => observer.observe(section));
 });

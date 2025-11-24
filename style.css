@@ -24,9 +24,9 @@ body {
   padding-top: .5rem;
 
   /* 🔹 keep navbar visible */
-  position: sticky;
+  position: relative;
   top: 0;
-  background: #fafafa;
+
 }
 
 
@@ -230,7 +230,7 @@ ul {
 
 /* When bars are retracted (split mode), hover grows only to 200px */
 .projects-shell.detail-open-split .project:hover {
-  height: 200px;
+  height: 100px;
 }
 
 .projects-shell.detail-open-split .project-meta {
@@ -267,7 +267,7 @@ ul {
 
 .project:hover .project-meta span {
   color: white;
-  transition: 0.3s color ease;
+  transition: 0.s color ease;
 }
 
 /* Column alignments */
@@ -299,7 +299,7 @@ ul {
   flex: 1 1 100%;
   max-width: 100%;
   /* animate shrink */
-  transition: flex-basis 0.7s ease, max-width 0.7s ease;
+  transition: flex-basis 0.5s ease, max-width 0.5s ease;
 }
 
 /* RIGHT column: detail panel */
@@ -309,7 +309,7 @@ ul {
   opacity: 0;
   overflow: hidden;
   /* animate grow + fade in */
-  transition: flex-basis 0.7s ease, max-width 0.7s ease, opacity 0.35s ease;
+  transition: flex-basis 0.4s ease, max-width 0.4s ease, opacity 0.4s ease;
 }
 
 /* (unused right now, but leaving it here is fine) */
@@ -363,6 +363,10 @@ ul {
   flex-direction: column;
   align-items: stretch;
 }
+.project-detail {
+  scroll-margin-top: 16px; /* small breathing room inside the panel */
+}
+
 
 .project-description {
   font-size: 2rem;
@@ -452,6 +456,18 @@ iframe {
 .project.highlighted {
   opacity: 1 !important;
 }
+
+/* Prevent panel from visually scrolling before delayed scroll */
+.detail-panel-frozen {
+  overflow: hidden !important;
+}
+
+/* Panel is hidden until ready to scroll */
+.detail-panel-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 
 /* =========================
    Footer
