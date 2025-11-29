@@ -115,12 +115,12 @@ body {
 .content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0rem;/* space between sections */
   padding: 0 1rem 4rem 1rem;
 }
 
 main {
-  padding-top: 0.5rem;
+  padding-top: 0rem; /* adjust if you have a fixed navbar */
 }
 
 /* =========================
@@ -210,7 +210,7 @@ ul {
 .project:hover .project-image {
   filter: blur(0px);
   opacity: 1;
-  transition: filter 0.2s ease;
+  transition: filter 0.5s ease;
 }
 
 /* Active project bar (used in split mode too) */
