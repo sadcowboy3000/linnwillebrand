@@ -224,10 +224,8 @@ if (clickedCard) {
         const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
 
         // Start smooth scroll
-        detailPanel.scrollTo({
-          top: targetOffset,
-          behavior: "smooth"
-        });
+smoothScrollTo(detailPanel, targetOffset, 900); 
+
 
         // After scroll has time to complete:
         // - highlight the bar
@@ -312,3 +310,30 @@ const observer = new IntersectionObserver((entries) => {
   // Observe only the scrollable project pages (1,2,3,4,5,6...)
   scrollProjectDetails.forEach(section => observer.observe(section));
 });
+
+//§------------- SMOOTH SCROLL FUNCTION ------------- 
+
+function smoothScrollTo(element, to, duration = 800) {
+  const start = element.scrollTop;
+  const change = to - start;
+  const startTime = performance.now();
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animateScroll(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const eased = easeOutCubic(progress);
+    element.scrollTop = start + change * eased;
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  }
+
+  requestAnimationFrame(animateScroll);
+}
+
