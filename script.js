@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ------------- CLICK HANDLER (MENU + BARS) -------------
 
+   // ------------- CLICK HANDLER (MENU + BARS) -------------
   document.addEventListener("click", (e) => {
     const projectEl = e.target.closest(".project, li[data-project], .project-link");
     if (!projectEl) return;
@@ -138,41 +139,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ---- CV / About → SIDE PANEL, BUT NOT IN SCROLL ----
-if (STATIC_IDS.includes(detailToShow.id)) {
-  // Hide all other detail sections, show only CV / About
-  projectDetails.forEach(section => section.classList.add("hidden"));
-  detailToShow.classList.remove("hidden");
+    if (STATIC_IDS.includes(detailToShow.id)) {
+      // Hide all other detail sections, show only CV / About
+      projectDetails.forEach(section => section.classList.add("hidden"));
+      detailToShow.classList.remove("hidden");
 
-  // No active bar highlight (since there's no matching project bar)
-  setActiveBar(null);
+      // No active bar highlight (since there's no matching project bar)
+      setActiveBar(null);
 
-  // Use the SPLIT layout: bars on the left, detail panel on the right
-  if (projectsShell) {
-    projectsShell.classList.remove("detail-open-classic");
-    projectsShell.classList.add("detail-open-split");
-  }
+      // Use the SPLIT layout: bars on the left, detail panel on the right
+      if (projectsShell) {
+        projectsShell.classList.remove("detail-open-classic");
+        projectsShell.classList.add("detail-open-split");
+      }
 
-  // Keep gallery visible on the left
-  if (gallery) {
-    gallery.classList.remove("hidden");
-  }
+      // Keep gallery visible on the left
+      if (gallery) {
+        gallery.classList.remove("hidden");
+      }
 
-  // Make sure the side panel is scrolled to the top
-  if (detailPanel) {
-    detailPanel.scrollTop = 0;
-  }
+      // Make sure the side panel is scrolled to the top
+      if (detailPanel) {
+        detailPanel.scrollTop = 0;
+      }
 
-  // Do not scroll the whole page
-  return;
-}
-
+      // Do not scroll the whole page
+      return;
+    }
 
     // ---- SCROLL MODE (REAL PROJECTS) ----
 
-    // Highlight bar for this project
-    setActiveBar(projectId);
+    // 1) Clear any old "scrolling" flags
+    projectCards.forEach(card => card.classList.remove("scrolling-project"));
 
-    // Show ONLY the scrollable project pages, hide CV/About
+// 2) If this click came from a bar (.project), mark that we are auto-scrolling
+const clickedCard = projectEl.closest(".project");
+if (clickedCard) {
+  clickedCard.classList.add("scrolling-project"); // (optional, can remove later)
+
+  if (projectsShell) {
+    projectsShell.classList.add("is-auto-scrolling");
+  }
+}
+
+
+        // mark that we are auto-scrolling → disables sidebar hover effects
+    if (projectsShell) {
+      projectsShell.classList.add("is-auto-scrolling");
+    }
+
+
+    // 🔸 IMPORTANT: we do NOT call setActiveBar(projectId) here.
+    // We wait until after the scroll has finished.
+
+    // 3) Show ONLY the scrollable project pages, hide CV/About
     projectDetails.forEach(section => {
       if (STATIC_IDS.includes(section.id)) {
         section.classList.add("hidden");
@@ -181,55 +201,53 @@ if (STATIC_IDS.includes(detailToShow.id)) {
       }
     });
 
-    // Always show gallery in split mode
+    // 4) Always show gallery in split mode
     if (gallery) {
       gallery.classList.remove("hidden");
     }
 
-    // Enable split (bars left, scrollable detail right)
+    // 5) Enable split (bars left, scrollable detail right)
     if (projectsShell) {
       projectsShell.classList.add("detail-open-split");
-      // Freeze bar animations so layout height doesn't shift during scroll
-projectsShell.classList.add("freeze-heights");
-
+      projectsShell.classList.add("freeze-heights");
     }
 
-    // Scroll inside the detail panel to the project (no page jump)
-if (detailPanel && detailPanel.contains(detailToShow)) {
+    // 6) Scroll inside the detail panel to the project
+    if (detailPanel && detailPanel.contains(detailToShow)) {
 
-  // Hide panel to prevent any flash of wrong content
-  detailPanel.classList.add("detail-panel-hidden");
+      const ANIM_DURATION = 400;  // your bar animation
+      const EXTRA_OFFSET  = 80;
 
-  // Delay scroll until layout is stable (bars collapsed)
-  setTimeout(() => {
+      // Wait for the bars animation
+      setTimeout(() => {
+        const rawOffset = detailToShow.offsetTop;
+        const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
 
-    const panelRect = detailPanel.getBoundingClientRect();
-    const targetRect = detailToShow.getBoundingClientRect();
+        // Start smooth scroll
+        detailPanel.scrollTo({
+          top: targetOffset,
+          behavior: "smooth"
+        });
 
-    const offsetWithinPanel =
-      detailPanel.scrollTop + (targetRect.top - panelRect.top);
+        // After scroll has time to complete:
+        // - highlight the bar
+        // - remove the "scrolling" flag so hover works normally again
+setTimeout(() => {
+  setActiveBar(projectId);
+  projectCards.forEach(card => card.classList.remove("scrolling-project"));
 
-    // Set the scroll *instantly* to the correct position while hidden
-    detailPanel.scrollTop = offsetWithinPanel;
-
-    // Now reveal panel and start smooth scroll (optional)
-    detailPanel.classList.remove("detail-panel-hidden");
-
-    // If you want immediate jump:
-    // (remove this block)
-    detailPanel.scrollTo({
-      top: offsetWithinPanel,
-      behavior: "smooth"
-    });
-
-  }, 400);
-}
-
+  // re-enable normal hover behavior
+  if (projectsShell) {
+    projectsShell.classList.remove("is-auto-scrolling");
+  }
+}, 600);
 
 
 
-
+      }, ANIM_DURATION);
+    }
   });
+
 
   // ------------- BACK BUTTONS: RETURN TO LANDING -------------
 
@@ -263,27 +281,33 @@ if (detailPanel && detailPanel.contains(detailToShow)) {
 
   // ------------- INTERSECTION OBSERVER: SCROLL → ACTIVE BAR -------------
 
-  const observerRoot = detailPanel || null;
+const observerRoot = detailPanel || null;
 
-  const observer = new IntersectionObserver((entries) => {
-    // Pick the entry with the largest visible area
-    let bestEntry = null;
+const observer = new IntersectionObserver((entries) => {
+  // If we're auto-scrolling, ignore observer updates
+  if (projectsShell && projectsShell.classList.contains("is-auto-scrolling")) {
+    return;
+  }
 
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
-        bestEntry = entry;
-      }
-    });
+  // Pick the entry with the largest visible area
+  let bestEntry = null;
 
-    if (bestEntry) {
-      const projectId = bestEntry.target.dataset.project;
-      setActiveBar(projectId);
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+      bestEntry = entry;
     }
-  }, {
-    root: observerRoot,                  // scroll container (detail panel)
-    threshold: [0.1, 0.25, 0.5, 0.75]
   });
+
+  if (bestEntry) {
+    const projectId = bestEntry.target.dataset.project;
+    setActiveBar(projectId);
+  }
+}, {
+  root: observerRoot,
+  threshold: [0.1, 0.25, 0.5, 0.75]
+});
+
 
   // Observe only the scrollable project pages (1,2,3,4,5,6...)
   scrollProjectDetails.forEach(section => observer.observe(section));

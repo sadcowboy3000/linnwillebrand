@@ -7,6 +7,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Default line length for project text */
+  --project-text-margin-right: 20rem;
+}
+
+
 body {
   font-family: "Times New Roman", Times, serif;
   background: #fafafa;
@@ -210,8 +216,9 @@ ul {
 .project:hover .project-image {
   filter: blur(0px);
   opacity: 1;
-  transition: filter 0.5s ease;
+  transition: filter 0.4s ease;
 }
+
 
 /* Active project bar (used in split mode too) */
 .project.active-project {
@@ -275,8 +282,9 @@ ul {
 }
 
 .project:hover .project-meta span {
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 4rem;
+  transition: font-size 0.3s ease, color 0.4s ease;
 }
 
 /* Column alignments */
@@ -386,8 +394,23 @@ ul {
 }
 
 .project-description p {
-  margin-right: 20rem;
+  margin-right: var(--project-text-margin-right);
 }
+
+/* ========
+   Override
+   ======== */
+
+/* CV section (Experience / Education) */
+#project-detail-100 {
+  --project-text-margin-right: 0rem;
+}
+
+/* About + Contact section */
+#project-detail-101 {
+  --project-text-margin-right: 0rem;
+}
+
 
 .project-description h2{
   font-weight: 200;
@@ -498,6 +521,24 @@ footer {
   background: rgba(255, 255, 255, 0);
   z-index: 100;
 }
+/* ==========================================
+   While auto-scrolling to a project:
+   disable hover grow / unblur / giant text
+   ========================================== */
+
+.projects-shell.is-auto-scrolling .project:hover .project-image {
+  /* keep it blurred like the default state */
+  filter: blur(12px);
+  opacity: 1;
+}
+
+.projects-shell.is-auto-scrolling .project:hover .project-meta span {
+  /* no giant text grow during auto-scroll */
+  font-size: 1.5rem; /* same as your base .project-meta font-size */
+  color: rgb(255, 255, 255);
+}
+
+
 
 /* =========================
    Responsive tweaks
