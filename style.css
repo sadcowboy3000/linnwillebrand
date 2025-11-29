@@ -233,7 +233,8 @@ ul {
 
 /* Keep the text white like on hover */
 .project.active-project .project-meta span {
-  color: white;
+  background-color: white;   /* solid block */
+  color: black;              /* readable contrast */
 }
 
 /* When bars are retracted (split mode), hover grows only to 200px */
@@ -244,7 +245,7 @@ ul {
 /* Disable giant text hover when side menu is active */
 .projects-shell.detail-open-split .project:hover .project-meta span {
   font-size: inherit !important;
-  color: rgb(255, 255, 255) !important;  /* keep normal color */
+  color: rgb(0, 0, 0) !important;  /* keep normal color */
 }
 
 
@@ -279,13 +280,22 @@ ul {
 .project-meta span {
   text-decoration: none;
   color: rgb(255, 255, 255);
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  transition:
+    font-size 0.25s ease,
+    color 0.25s ease,
+    background-color 0.25s ease,
+    padding 0.25s ease;
 }
 
 .project:hover .project-meta span {
-  color: rgb(255, 255, 255);
   font-size: 4rem;
-  transition: font-size 0.3s ease, color 0.4s ease;
+  background-color: white;   /* solid block */
+  color: black;              /* readable contrast */
 }
+
+
 
 /* Column alignments */
 .meta-title {
@@ -613,6 +623,7 @@ footer {
   .project-meta {
     font-size: 1.2rem;
   }
+  
 
   .project-image {
     object-fit: cover;
