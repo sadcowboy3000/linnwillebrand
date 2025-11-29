@@ -385,6 +385,10 @@ ul {
   padding: .5rem;
 }
 
+.project-description p {
+  margin-right: 20rem;
+}
+
 .project-description h2{
   font-weight: 200;
 }
@@ -513,6 +517,9 @@ footer {
     width: 100%;
     margin: 0 auto 2rem auto;
   }
+  .project-description p {
+  margin-right: auto;
+}
 
   .projects-shell {
     flex-direction: column;
