@@ -336,4 +336,3 @@ function smoothScrollTo(element, to, duration = 800) {
 
   requestAnimationFrame(animateScroll);
 }
-
