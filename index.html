@@ -6,6 +6,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
  <title>Linn Willebrand</title>
  <link rel="stylesheet" href="style.css" />
+ <link rel="icon" href="assets/Archive/lidl_linn.png" type="image/png">
 </head>
 
 <body>
@@ -370,7 +371,7 @@
         <img src="assets/Fram/Willebrand_Fram_3.JPG" alt="Field Day still 5">
         <img src="assets/Fram/Willebrand_Fram_2.JPG" alt="Field Day still 2">
        </div>
-       <img src=""></img>
+       <video src="assets/Fram/Type-Video.mov" autoplay muted loop></video>
       </div>
      </section>
 
@@ -382,12 +383,27 @@
        <p>Various creations over the years</p>
       </div>
       <div class="project-media">
-       <div class="image-grid-1">
-        <img src="assets/Archive/DykeArtboard-5.png" alt="Field Day still 4">
-        <img src="assets/Archive/BLITZMAG4.png" alt="Field Day still 1">
-        
-       </div>
-       <video src="assets/Archive/Uppgift 4_Linn Willebrand.mp4" autoplay muted loop></video>
+      <div class="image-grid-1">
+        <figure>
+          <img src="assets/Archive/DykeArtboard-5.png" alt="Field Day still 4">
+          <figcaption>Poster for pride 2025</figcaption>
+        </figure>
+
+        <figure>
+          <img src="assets/Archive/BLITZMAG4.png" alt="Field Day still 1">
+          <figcaption>Cover for Blitz Magazine</figcaption>
+        </figure>
+          <figure>
+          <img src="assets/Archive/halsduk_3.png" alt="Field Day still 1">
+          <figcaption>Scarf in collaboration with Lovisa Åkerblom</figcaption>
+        </figure>
+        <img src="assets/Archive/halsduk_4.png" alt="Field Day still 1">
+      </div>
+
+      <figure>
+         <video src="assets/Archive/Uppgift 4_Linn Willebrand.mp4" autoplay muted loop></video>
+        <figcaption class="figcaption">3D Animation for Omnichord</figcaption>
+      </figure>
       </div>
      </section>
 
@@ -405,6 +421,10 @@
 
  <!-- Script -->
  <script src="script.js"></script>
+ <div id="lightbox" class="lightbox hidden">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 </body>
 
 </html>
