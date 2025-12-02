@@ -523,6 +523,17 @@ iframe {
   height: auto;
 }
 
+.image-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+.image-grid-2 img {
+  width: 100%;
+  height: auto;
+}
+
 .project-media video {
   margin-top: .5rem;
   width: 100%;
@@ -632,7 +643,6 @@ footer {
 .figcaption {
   text-decoration: underline;
 }
-
 
 
 
