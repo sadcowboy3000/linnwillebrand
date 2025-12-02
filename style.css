@@ -201,10 +201,11 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: .75;
-  filter: blur(12px);
+  opacity: 1;
+  filter: brightness(90%) blur(12px);
   transition: opacity 0.4s ease;
   pointer-events: none;
+  
 }
 
 .project-image.gif {
@@ -230,7 +231,7 @@ ul {
 .project:hover .project-image {
   filter: blur(0px);
   opacity: 1;
-  transition: filter 0.4s ease;
+  transition: filter 0.9s ease opacity 0.9s ease;
 }
 
 
@@ -260,6 +261,7 @@ ul {
 .project.active-project .project-meta span {
   background-color: white;   /* solid block */
   color: black;              /* readable contrast */
+  text-shadow: none;
 }
 
 /* When bars are retracted (split mode), hover grows only to 200px */
@@ -271,10 +273,12 @@ ul {
 .projects-shell.detail-open-split .project:hover .project-meta span {
   font-size: inherit !important;
   color: rgb(0, 0, 0) !important;  /* keep normal color */
+  text-shadow: none!important;
 }
 
 
 .projects-shell.detail-open-split .project-meta {
+  
   font-size: 1rem;
   grid-template-columns: minmax(6rem, 1fr) minmax(9rem, 1fr) minmax(6rem, 1fr);
 }
@@ -313,6 +317,7 @@ ul {
   padding: 0 0.75rem;
   font-size: 1.5rem;
   align-items: center;
+  text-shadow: #00000071 0px 0px 3px;
 }
 
 
@@ -338,6 +343,7 @@ ul {
   font-size: 4rem;
   background-color: white;   /* solid block */
   color: black;              /* readable contrast */
+  text-shadow: none;
 }
 
 
