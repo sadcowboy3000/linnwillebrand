@@ -258,6 +258,26 @@ ul {
    Project meta (text inside the bar)
    ========================== */
 
+.menu-instruction{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(2rem, 1fr) minmax(2rem, 1fr) minmax(rem, 1fr);
+  width: 100%;
+  height: 100%;
+  padding: 0 0.75rem;
+  font-size: 1.5rem;
+  align-items: center;
+}
+
+.menu-instruction span{
+  align-items: center;
+  text-decoration: none;
+  color: rgb(0, 0, 0) !important;
+  padding: 1rem 1rem;
+  background: transparent;
+}
+
 .project-meta {
   position: relative;
   z-index: 1;
