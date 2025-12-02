@@ -423,34 +423,39 @@ ul {
    Project detail view
    ========================== */
 
+/* (you can delete the --project-text-margin-right variable entirely) */
+
+/* Project detail card */
 .project-detail {
   background: #fff;
   border: 1px solid #000;
   width: 100%;
+  max-width: 80rem;              /* readable width on desktop */
   box-sizing: border-box;
-  padding: 1rem;
-  margin: 0 0 2rem 0;
-
+  padding: 1rem 1rem 1rem;
+  margin: 0 auto 2rem;           /* center the card */
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  scroll-margin-top: 16px;       /* small breathing room inside the panel */
 }
-.project-detail {
-  scroll-margin-top: 16px; /* small breathing room inside the panel */
-}
-
 
 .project-description {
-  font-size: 1,3rem;
-  line-height: 1.3rem;
+  margin-right: var(--project-text-margin-right);
+  font-size: 1.1rem;
+  line-height: 1.5;
   color: #000;
   margin-bottom: 2rem;
-  padding: .5rem;
+  padding: 0;                    /* padding handled by .project-detail */
 }
 
 .project-description p {
-  margin-right: var(--project-text-margin-right);
+  margin: 0 0 0.75rem 0;         /* simple bottom margin between paragraphs */
 }
+
+/* CV & About don’t need special margin overrides any more,
+   so you can completely remove the old #project-detail-100/101 rules. */
+
 
 /* ========
    Override
@@ -599,33 +604,48 @@ footer {
    Responsive tweaks
    ========================== */
 
-@media (max-width: 900px) {
-  .two-column {
-    grid-template-columns: 1fr;
+@media (max-width: 700px) {
+
+  /* Stack sidebar above content, no sticky split layout */
+  .projects-shell {
+    display: inline-block;
+    flex-direction: column;
+    gap: 1rem;
+    
   }
 
-  .image-grid {
-    grid-template-columns: 1fr;
-    margin: 1rem auto;
+  .projects-shell.detail-open-split #gallery {
+    position: static;
+    flex: 0 0 auto;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .project-detail-panel,
+  .projects-shell.detail-open-split .project-detail-panel,
+  .projects-shell.detail-open-classic .project-detail-panel {
+    flex: 0 0 auto;
+    max-width: 100%;
+    max-height: none;
+    height: auto;
+    overflow: visible;      /* whole page scrolls normally */
   }
 
   .project-detail {
-    width: 100%;
-    margin: 0 auto 2rem auto;
-  }
-  .project-description p {
-  margin-right: auto;
-}
-
-  .projects-shell {
-    flex-direction: column;
-  }
-
-  .projects-shell.detail-open-split #gallery,
-  .projects-shell.detail-open-split .project-detail-panel,
-  .projects-shell.detail-open-classic .project-detail-panel {
-    flex: 1 1 auto;
     max-width: 100%;
+    margin: 0 0 1.5rem 0;
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .project-description {
+    padding: 0;
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   /* ---------- MOBILE NAV ---------- */
@@ -668,11 +688,18 @@ footer {
   .project-meta {
     font-size: 1.2rem;
   }
-  
 
   .project-image {
     object-fit: cover;
     width: 100%;
     height: 100%;
   }
+
+  /* Softer hover on small screens (no giant text) */
+  .project:hover .project-meta span {
+    font-size: 1.3rem;
+    background-color: white;
+    color: black;
+  }
 }
+

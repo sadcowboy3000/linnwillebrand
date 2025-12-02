@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectsShell = document.querySelector(".projects-shell");
   const projectCards = document.querySelectorAll(".project");
   const detailPanel = document.querySelector(".project-detail-panel");
+  const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
+
   let lastScrollY = 0;
 
   // IDs for pages that should NOT be in the scroll sequence
@@ -212,6 +214,7 @@ if (clickedCard) {
       projectsShell.classList.add("freeze-heights");
     }
 
+    
     // 6) Scroll inside the detail panel to the project
     if (detailPanel && detailPanel.contains(detailToShow)) {
 
@@ -224,26 +227,24 @@ if (clickedCard) {
         const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
 
         // Start smooth scroll
-smoothScrollTo(detailPanel, targetOffset, 900); 
-
+        smoothScrollTo(detailPanel, targetOffset, 900); 
 
         // After scroll has time to complete:
         // - highlight the bar
         // - remove the "scrolling" flag so hover works normally again
-setTimeout(() => {
-  setActiveBar(projectId);
-  projectCards.forEach(card => card.classList.remove("scrolling-project"));
+        setTimeout(() => {
+          setActiveBar(projectId);
+          projectCards.forEach(card => card.classList.remove("scrolling-project"));
 
-  // re-enable normal hover behavior
-  if (projectsShell) {
-    projectsShell.classList.remove("is-auto-scrolling");
-  }
-}, 600);
-
-
+          // re-enable normal hover behavior
+          if (projectsShell) {
+            projectsShell.classList.remove("is-auto-scrolling");
+          }
+        }, 600);
 
       }, ANIM_DURATION);
     }
+
   });
 
 
