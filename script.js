@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectsShell = document.querySelector(".projects-shell");
   const projectCards = document.querySelectorAll(".project");
   const detailPanel = document.querySelector(".project-detail-panel");
-  const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
-
+ const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches; // or 768px
   let lastScrollY = 0;
 
   // IDs for pages that should NOT be in the scroll sequence
@@ -141,33 +140,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ---- CV / About → SIDE PANEL, BUT NOT IN SCROLL ----
-    if (STATIC_IDS.includes(detailToShow.id)) {
-      // Hide all other detail sections, show only CV / About
-      projectDetails.forEach(section => section.classList.add("hidden"));
-      detailToShow.classList.remove("hidden");
+        // ---- CV / About ----
+// ---- CV / About ----
+if (STATIC_IDS.includes(detailToShow.id)) {
+  // Show ONLY CV / About section
+  projectDetails.forEach(section => section.classList.add("hidden"));
+  detailToShow.classList.remove("hidden");
 
-      // No active bar highlight (since there's no matching project bar)
-      setActiveBar(null);
+  setActiveBar(null);
 
-      // Use the SPLIT layout: bars on the left, detail panel on the right
-      if (projectsShell) {
-        projectsShell.classList.remove("detail-open-classic");
-        projectsShell.classList.add("detail-open-split");
-      }
+  // Use classic (full-width) layout for CV / About
+  if (projectsShell) {
+    projectsShell.classList.remove("detail-open-split");
+    projectsShell.classList.add("detail-open-classic");
+    projectsShell.classList.add("cv-about-open");  // <-- key class
+  }
 
-      // Keep gallery visible on the left
-      if (gallery) {
-        gallery.classList.remove("hidden");
-      }
+  // Make sure detail panel itself is at top (desktop)
+  if (detailPanel) {
+    detailPanel.scrollTop = 0;
+  }
 
-      // Make sure the side panel is scrolled to the top
-      if (detailPanel) {
-        detailPanel.scrollTop = 0;
-      }
+  // Also scroll the page a bit so the section is nicely placed
+  const rect = detailToShow.getBoundingClientRect();
+  const targetY = window.scrollY + rect.top - 40;
+  window.scrollTo({ top: targetY, behavior: "smooth" });
 
-      // Do not scroll the whole page
-      return;
-    }
+  return;
+}
+
+
 
     // ---- SCROLL MODE (REAL PROJECTS) ----
 
@@ -215,35 +217,46 @@ if (clickedCard) {
     }
 
     
-    // 6) Scroll inside the detail panel to the project
-    if (detailPanel && detailPanel.contains(detailToShow)) {
+  // 6) Scroll to the project (panel if scrollable, otherwise page)
+  if (detailPanel && detailPanel.contains(detailToShow)) {
 
-      const ANIM_DURATION = 400;  // your bar animation
-      const EXTRA_OFFSET  = 80;
+    const ANIM_DURATION = 400;   // bar animation
+    const EXTRA_OFFSET  = 80;
 
-      // Wait for the bars animation
-      setTimeout(() => {
+    setTimeout(() => {
+      // Is the panel actually scrollable?
+      const panelScrollable =
+        detailPanel.scrollHeight > detailPanel.clientHeight + 5;
+
+      if (panelScrollable) {
+        // Scroll inside the right-hand panel (desktop / tall layouts)
         const rawOffset = detailToShow.offsetTop;
         const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
+        smoothScrollTo(detailPanel, targetOffset, 900);
+      } else {
+        // Fallback: scroll the whole page (some mobile layouts)
+        const rect = detailToShow.getBoundingClientRect();
+        const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
 
-        // Start smooth scroll
-        smoothScrollTo(detailPanel, targetOffset, 900); 
+        window.scrollTo({
+          top: targetY,
+          behavior: "smooth",
+        });
+      }
 
-        // After scroll has time to complete:
-        // - highlight the bar
-        // - remove the "scrolling" flag so hover works normally again
-        setTimeout(() => {
-          setActiveBar(projectId);
-          projectCards.forEach(card => card.classList.remove("scrolling-project"));
+      // After scroll: highlight bar, remove flags
+      setTimeout(() => {
+        setActiveBar(projectId);
+        projectCards.forEach(card =>
+          card.classList.remove("scrolling-project")
+        );
+        if (projectsShell) {
+          projectsShell.classList.remove("is-auto-scrolling");
+        }
+      }, 600);
+    }, ANIM_DURATION);
+  }
 
-          // re-enable normal hover behavior
-          if (projectsShell) {
-            projectsShell.classList.remove("is-auto-scrolling");
-          }
-        }, 600);
-
-      }, ANIM_DURATION);
-    }
 
   });
 
@@ -260,7 +273,7 @@ if (clickedCard) {
       }
 
       if (projectsShell) {
-        projectsShell.classList.remove("detail-open-split", "detail-open-classic");
+        projectsShell.classList.remove("detail-open-split", "detail-open-classic", "cv-about-open");
       }
 
       // remove the active highlight
