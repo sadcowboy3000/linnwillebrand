@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // IDs for pages that should NOT be in the scroll sequence
   const STATIC_IDS = ["project-detail-100", "project-detail-101"];
+  const contactBlock = document.getElementById("contact-block");
 
   // Overlay images config (unchanged, in case you re-enable later)
   const hoverImagesByProject = {
@@ -133,6 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const detailToShow = document.getElementById(`project-detail-${projectId}`);
     if (!detailToShow) return;
+
+    if (contactBlock) {
+      contactBlock.classList.remove("hidden");
+    }
 
     // Reset layout classes first
     if (projectsShell) {
@@ -275,6 +280,10 @@ if (clickedCard) {
       if (projectsShell) {
         projectsShell.classList.remove("detail-open-split", "detail-open-classic", "cv-about-open");
       }
+
+      if (contactBlock) {
+      contactBlock.classList.add("hidden");
+    }
 
       // remove the active highlight
       projectCards.forEach(card => card.classList.remove("active-project"));
