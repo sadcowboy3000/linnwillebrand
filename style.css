@@ -8,14 +8,13 @@
 }
 
 :root {
-  /* Default line length for project text */
   --project-text-margin-right: 20vw;
 }
 
 
 body {
   font-family: "Times New Roman", Times, serif;
-  background: #f5f5f5;
+  background: #ffffff;
   color: #333;
 }
 
@@ -29,7 +28,6 @@ body {
   z-index: 299;
   padding-top: .5rem;
 
-  /* 🔹 keep navbar visible */
   position: relative;
   top: 0;
 
@@ -54,16 +52,16 @@ body {
 .nav-main {
   display: flex;
   align-items: center;
-  justify-content: space-between;  /* left → center → right */
+  justify-content: space-between;  
   width: 100%;
-  gap: 1rem;                       /* spacing */
-  flex-wrap: nowrap;               /* ⬅️ prevents wrapping */
-  white-space: nowrap;             /* ⬅️ forces everything to stay on one line */
+  gap: 1rem;                       
+  flex-wrap: nowrap;               
+  white-space: nowrap;             
 }
 
 .left-links {
   display: flex;
-  gap: 1rem;                        /* evenly spaced links */
+  gap: 1rem;                        
   align-items: center;
   white-space: nowrap;
 }
