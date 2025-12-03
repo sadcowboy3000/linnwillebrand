@@ -120,6 +120,10 @@ main {
   padding-top: 0rem; /* adjust if you have a fixed navbar */
 }
 
+.projects-shell{
+  margin-top: 2rem;
+}
+
 /* =========================
    Two-column text sections
    ========================== */
@@ -354,7 +358,7 @@ ul {
 
 .project:hover .project-meta span,
 .project.touch-hover .project-meta span {
-  font-size: 5vw;
+  font-size: 4vw;
   color: rgb(255, 255, 255);
   background: none !important;
   text-shadow: none;
@@ -486,11 +490,11 @@ ul {
   background: #ffffff;
   /*border: 1px solid #000;*/
   width: 100%;
-  max-width: 80rem;              /* readable width on desktop */
+  max-width: 100vw;              /* readable width on desktop */
   box-sizing: border-box;
   padding: 1rem 1rem 1rem;
   margin: 0 auto 2rem;           /* center the card */
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: stretch;
   scroll-margin-top: 16px;       /* small breathing room inside the panel */
@@ -592,6 +596,8 @@ iframe {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: .5rem;
 }
 
 .image-grid-2 img {
