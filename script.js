@@ -333,6 +333,63 @@ const observer = new IntersectionObserver((entries) => {
 
   // Observe only the scrollable project pages (1,2,3,4,5,6...)
   scrollProjectDetails.forEach(section => observer.observe(section));
+
+  // --- Piano-style swipe hover on mobile ---
+(function setupPianoSwipe() {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
+
+  // Only enable on touch devices
+  const isTouch =
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  if (!isTouch) return;
+
+  let lastTouchedProject = null;
+
+  function activateProject(projectEl) {
+    if (!projectEl || projectEl === lastTouchedProject) return;
+
+    // Remove previous highlight
+    if (lastTouchedProject) {
+      lastTouchedProject.classList.remove("touch-hover");
+    }
+
+    // Add highlight to new one
+    projectEl.classList.add("touch-hover");
+    lastTouchedProject = projectEl;
+  }
+
+  function handleTouchMove(e) {
+    const touch = e.touches[0];
+    const x = touch.clientX;
+    const y = touch.clientY;
+
+    const el = document.elementFromPoint(x, y);
+    if (!el) return;
+
+    const projectEl = el.closest(".project");
+    if (projectEl && gallery.contains(projectEl)) {
+      activateProject(projectEl);
+    }
+
+    // Prevent scroll while interacting
+    e.preventDefault();
+  }
+
+  function handleTouchEnd() {
+    if (lastTouchedProject) {
+      lastTouchedProject.classList.remove("touch-hover");
+      lastTouchedProject = null;
+    }
+  }
+
+  gallery.addEventListener("touchstart", handleTouchMove, { passive: false });
+  gallery.addEventListener("touchmove", handleTouchMove, { passive: false });
+  gallery.addEventListener("touchend", handleTouchEnd);
+  gallery.addEventListener("touchcancel", handleTouchEnd);
+})();
+
+
 });
 
 //§------------- SMOOTH SCROLL FUNCTION ------------- 
