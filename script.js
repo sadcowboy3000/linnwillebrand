@@ -151,6 +151,7 @@ if (STATIC_IDS.includes(detailToShow.id)) {
   // Show ONLY CV / About section
   projectDetails.forEach(section => section.classList.add("hidden"));
   detailToShow.classList.remove("hidden");
+  
 
   setActiveBar(null);
 

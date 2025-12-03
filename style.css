@@ -445,8 +445,7 @@ ul {
   grid-column: 1 / 2;   /* if projects-shell is a CSS grid */
   margin-top: 1.5rem;
   padding: 0.75rem 0.75rem 1rem;
-  border-top: 1px solid #000;
-  font-size: 0.9rem;
+  font-size: 1vw;
 }
 
 /* optional: match menu width on mobile/desktop 
@@ -460,8 +459,7 @@ ul {
 }
 
 .contact-inner p:first-child {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: rgb(0, 0, 0);
 }
 
 
@@ -708,6 +706,12 @@ footer {
    ========================== */
 
 @media (max-width: 768px) {
+
+  .image-grid-1 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
 
   .projects-shell.cv-about-open #gallery {
     display: none;
