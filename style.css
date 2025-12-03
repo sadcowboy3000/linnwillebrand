@@ -779,7 +779,7 @@ footer {
   .project-description {
     padding: 0;
     --project-text-margin-right: 1vw;
-    font-size: 2vw;
+    font-size: 4vw;
   }
 
   .two-column {
