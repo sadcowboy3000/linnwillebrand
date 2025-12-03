@@ -605,6 +605,16 @@ iframe {
   height: auto;
 }
 
+.image-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.image-grid-3 img {
+  width: 100%;
+  height: auto;
+}
+
 .project-media video {
   margin-top: .5rem;
   width: 100%;
@@ -717,6 +727,10 @@ footer {
 
 .hover-video{
   pointer-events: none;
+}
+
+.bw{
+  filter: grayscale(100%);
 }
 
 
