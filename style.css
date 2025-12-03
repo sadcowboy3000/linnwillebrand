@@ -751,6 +751,12 @@ footer {
   gap: 1rem;
 }
 
+.image-grid-3{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
   .projects-shell.cv-about-open #gallery {
     display: none;
   }
