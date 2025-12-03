@@ -829,6 +829,11 @@ footer {
   background-color: white;
   color: rgb(255, 255, 255);
 }
+.project:hover,
+.project.touch-hover {
+  height: 200px;
+  border-color: #000;
+}
 
 
   .projects-shell.detail-open-split .project-meta {

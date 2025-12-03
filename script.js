@@ -334,36 +334,55 @@ const observer = new IntersectionObserver((entries) => {
   // Observe only the scrollable project pages (1,2,3,4,5,6...)
   scrollProjectDetails.forEach(section => observer.observe(section));
 
-  // --- Piano-style swipe hover on mobile ---
+ // --- Piano-style swipe hover on mobile (keeps taps clickable) ---
 (function setupPianoSwipe() {
   const gallery = document.getElementById("gallery");
   if (!gallery) return;
 
-  // Only enable on touch devices
   const isTouch =
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
   if (!isTouch) return;
 
   let lastTouchedProject = null;
+  let startX = 0;
+  let startY = 0;
+  let isSwiping = false;
+  const SWIPE_THRESHOLD = 10; // px before we treat it as a swipe
 
   function activateProject(projectEl) {
     if (!projectEl || projectEl === lastTouchedProject) return;
 
-    // Remove previous highlight
     if (lastTouchedProject) {
       lastTouchedProject.classList.remove("touch-hover");
     }
 
-    // Add highlight to new one
     projectEl.classList.add("touch-hover");
     lastTouchedProject = projectEl;
   }
 
-  function handleTouchMove(e) {
-    const touch = e.touches[0];
-    const x = touch.clientX;
-    const y = touch.clientY;
+  function onTouchStart(e) {
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    isSwiping = false; // we don't know yet if it's a swipe or just a tap
+    // 🔸 no preventDefault here – allows normal tap → click
+  }
 
+  function onTouchMove(e) {
+    const t = e.touches[0];
+    const dx = Math.abs(t.clientX - startX);
+    const dy = Math.abs(t.clientY - startY);
+
+    // Only become a "swipe" if you move more than the threshold
+    if (!isSwiping && (dx > SWIPE_THRESHOLD || dy > SWIPE_THRESHOLD)) {
+      isSwiping = true;
+    }
+
+    if (!isSwiping) return; // still basically a tap, let it become a click
+
+    // Now it's a swipe: play the piano & stop scrolling
+    const x = t.clientX;
+    const y = t.clientY;
     const el = document.elementFromPoint(x, y);
     if (!el) return;
 
@@ -372,22 +391,24 @@ const observer = new IntersectionObserver((entries) => {
       activateProject(projectEl);
     }
 
-    // Prevent scroll while interacting
-    e.preventDefault();
+    e.preventDefault(); // only block scroll when actually swiping
   }
 
-  function handleTouchEnd() {
+  function onTouchEnd() {
+    // After swipe ends, remove the highlight
     if (lastTouchedProject) {
       lastTouchedProject.classList.remove("touch-hover");
       lastTouchedProject = null;
     }
+    isSwiping = false;
   }
 
-  gallery.addEventListener("touchstart", handleTouchMove, { passive: false });
-  gallery.addEventListener("touchmove", handleTouchMove, { passive: false });
-  gallery.addEventListener("touchend", handleTouchEnd);
-  gallery.addEventListener("touchcancel", handleTouchEnd);
+  gallery.addEventListener("touchstart", onTouchStart, { passive: false });
+  gallery.addEventListener("touchmove", onTouchMove, { passive: false });
+  gallery.addEventListener("touchend", onTouchEnd);
+  gallery.addEventListener("touchcancel", onTouchEnd);
 })();
+
 
 
 });
