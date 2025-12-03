@@ -722,6 +722,10 @@ footer {
    ========================== */
 
 @media (max-width: 768px) {
+    body.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+    }
 
   .image-grid-1 {
   display: grid;

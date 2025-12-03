@@ -12,6 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const STATIC_IDS = ["project-detail-100", "project-detail-101"];
   const contactBlock = document.getElementById("contact-block");
 
+  const isTouchDevice =
+  "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+// On mobile: start with no scroll on landing
+if (isTouchDevice) {
+  document.body.classList.add("no-scroll");
+}
+
+
   // Overlay images config (unchanged, in case you re-enable later)
   const hoverImagesByProject = {
     1: [
@@ -144,8 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
       projectsShell.classList.remove("detail-open-split", "detail-open-classic");
     }
 
-    // ---- CV / About → SIDE PANEL, BUT NOT IN SCROLL ----
-        // ---- CV / About ----
 // ---- CV / About ----
 if (STATIC_IDS.includes(detailToShow.id)) {
   // Show ONLY CV / About section
@@ -171,6 +178,11 @@ if (STATIC_IDS.includes(detailToShow.id)) {
   const rect = detailToShow.getBoundingClientRect();
   const targetY = window.scrollY + rect.top - 40;
   window.scrollTo({ top: targetY, behavior: "smooth" });
+
+    // Re-enable scroll on mobile when a static page (CV/About) is open
+  if (isTouchDevice) {
+    document.body.classList.remove("no-scroll");
+  }
 
   return;
 }
@@ -198,10 +210,6 @@ if (clickedCard) {
       projectsShell.classList.add("is-auto-scrolling");
     }
 
-
-    // 🔸 IMPORTANT: we do NOT call setActiveBar(projectId) here.
-    // We wait until after the scroll has finished.
-
     // 3) Show ONLY the scrollable project pages, hide CV/About
     projectDetails.forEach(section => {
       if (STATIC_IDS.includes(section.id)) {
@@ -221,6 +229,12 @@ if (clickedCard) {
       projectsShell.classList.add("detail-open-split");
       projectsShell.classList.add("freeze-heights");
     }
+
+      // Re-enable scroll on mobile when project details are visible
+  if (isTouchDevice) {
+    document.body.classList.remove("no-scroll");
+  }
+
 
     
   // 6) Scroll to the project (panel if scrollable, otherwise page)
@@ -297,6 +311,10 @@ if (clickedCard) {
 
       if (gallery) {
         gallery.querySelectorAll('.project').forEach(p => p.classList.remove('dimmed', 'highlighted'));
+      }
+
+      if (isTouchDevice) {
+      document.body.classList.add("no-scroll");
       }
     });
   });
