@@ -293,7 +293,7 @@ if (clickedCard) {
       }
 
       if (projectsShell) {
-        projectsShell.classList.remove("detail-open-split", "detail-open-classic", "cv-about-open");
+        projectsShell.classList.remove("detail-open-split", "detail-open-classic", "cv-about-open",);
       }
 
       if (contactBlock) {

@@ -176,7 +176,7 @@ ul {
 .project {
   position: relative;
   width: 100%;
-  height: 40px;
+  height: 60px;
   overflow: hidden;
   cursor: pointer;
   background: #fff;
@@ -216,7 +216,7 @@ ul {
 /* Hover OR touch-hover: grow bar + reveal image */
 .project:hover,
 .project.touch-hover {
-  height: 400px;
+  height: 300px;
   border-color: #000;
 }
 
@@ -241,7 +241,7 @@ ul {
 
 /* Active project bar (used in split mode too) */
 .project.active-project {
-  height: 100px; /* 🔹 this is the “grown” state when active */
+  height: 150px; /* 🔹 this is the “grown” state when active */
 }
 
 /* Keep the image visible for the active bar */
@@ -270,7 +270,7 @@ ul {
 
 /* When bars are retracted (split mode), hover grows only to 200px */
 .projects-shell.detail-open-split .project:hover {
-  height: 100px;
+  height: 150px;
 }
 
 /* Disable giant text hover when side menu is active */
@@ -871,6 +871,11 @@ footer {
 }
 #contact-block {
     display: none !important;
+  }
+
+  .hover-video,
+  .hover-overlay {
+    display: none;
   }
 }
 
