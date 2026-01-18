@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectsShell = document.querySelector(".projects-shell");
   const projectCards = document.querySelectorAll(".project");
   const detailPanel = document.querySelector(".project-detail-panel");
+  const arrow = document.getElementById("arrow");
  const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches; // or 768px
   let lastScrollY = 0;
 
@@ -176,7 +177,7 @@ if (STATIC_IDS.includes(detailToShow.id)) {
 
   // Also scroll the page a bit so the section is nicely placed
   const rect = detailToShow.getBoundingClientRect();
-  const targetY = window.scrollY + rect.top - 40;
+  //const targetY = window.scrollY + rect.top - 40;
   window.scrollTo({ top: targetY, behavior: "smooth" });
 
     // Re-enable scroll on mobile when a static page (CV/About) is open
@@ -218,6 +219,10 @@ if (clickedCard) {
         section.classList.remove("hidden");
       }
     });
+
+    if(arrow){
+      arrow.classList.remove("hidden")
+    }
 
     // 4) Always show gallery in split mode
     if (gallery) {
@@ -287,6 +292,10 @@ if (clickedCard) {
     button.addEventListener('click', () => {
       // Hide all details again (back to landing)
       projectDetails.forEach(section => section.classList.add('hidden'));
+
+      if(arrow) {
+        arrow.classList.add("hidden")
+      }
 
       if (gallery) {
         gallery.classList.remove('hidden');

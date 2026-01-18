@@ -8,7 +8,7 @@
 }
 
 :root {
-  --project-text-margin-right: 20vw;
+  --project-text-margin-right: 0vw;
 }
 
 
@@ -90,9 +90,9 @@ body {
 
 /* Tagline */
 .tagline {
-  flex: 1;                          /* take leftover space */
+  flex: 1;                          
   overflow: hidden;
-  text-overflow: ellipsis;          /* fades with "…" when too long */
+  text-overflow: ellipsis;          
   white-space: nowrap;
 }
 
@@ -117,7 +117,7 @@ body {
 }
 
 main {
-  padding-top: 0rem; /* adjust if you have a fixed navbar */
+  padding-top: 0rem; 
 }
 
 .projects-shell{
@@ -136,7 +136,7 @@ main {
 }
 
 .two-column h2 {
-  font-size: 1.3rem;
+  font-size: 1.3rem !important;
   text-decoration: underline;
   color: blue;
   font-weight: normal;
@@ -502,11 +502,17 @@ ul {
 
 .project-description {
   margin-right: var(--project-text-margin-right);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #000;
   margin-bottom: 2rem;
   padding: 0;                    /* padding handled by .project-detail */
+}
+
+.project-description h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: blue;
+  font-size: 3rem;
 }
 
 .project-description p {
@@ -544,23 +550,34 @@ ul {
   margin-bottom: 1rem;
 }
 
+.arrow {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* ✅ pushes the button to the right */
+}
+
+
 .back-button {
   background: none;
   border: none;
   cursor: pointer;
-  text-decoration: underline;
-  color: blue;
   margin-bottom: 1rem;
-  display: inline-block;
-  align-self: flex-start;
-  background-image: url(assets/Archive/Asset\ 1.png);
-  width: 2rem;
-  height: 2rem;
+
+  /* remove this (it only works in flex parents) */
+  /* align-self: flex-start; */
+
+  /*background-image: url("assets/Archive/Asset 1.png");*/
+
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-
 }
+
+.arrow .back-button {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.1rem;
+}
+
 
 .hidden {
   display: none;
@@ -876,6 +893,10 @@ footer {
   .hover-video,
   .hover-overlay {
     display: none;
+  }
+
+    #arrow {
+    display: none !important;
   }
 }
 
