@@ -9,8 +9,6 @@
 
 
 
-
-
 :root {
   --project-text-margin-right: 5vw;
 }
@@ -925,6 +923,10 @@ footer {
   .nav-main {
     flex-wrap: nowrap;         /* now allow wrapping */
     gap: 0.5rem;
+  }
+
+  .nav-main span {
+    font-size: .5rem;
   }
 
   .tagline {
