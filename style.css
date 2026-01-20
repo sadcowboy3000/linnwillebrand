@@ -898,7 +898,7 @@ footer {
 
   .two-column {
     justify-content: center;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr, 2fr;
     gap: 1.5rem;
     padding: 0%;
     padding-right: 40%;
@@ -923,6 +923,7 @@ footer {
   .nav-main {
     flex-wrap: nowrap;         /* now allow wrapping */
     gap: 0.5rem;
+    font-size: .3rem;
   }
 
   .nav-main span {
