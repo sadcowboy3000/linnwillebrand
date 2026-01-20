@@ -127,9 +127,7 @@ if (isTouchDevice) {
     section => !STATIC_IDS.includes(section.id)
   );
 
-  
 
-  // ------------- CLICK HANDLER (MENU + BARS) -------------
 
    // ------------- CLICK HANDLER (MENU + BARS) -------------
   document.addEventListener("click", (e) => {

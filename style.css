@@ -19,8 +19,7 @@ body {
   font-family: "Times New Roman", Times, serif;
   background: #ffffff;
   color: #333;
-  overflow: hidden;
-
+  overflow-y: hidden;
 }
 
 
@@ -401,6 +400,7 @@ ul {
   align-items: flex-start;
   width: 100%;
   /* column-gap: 1.5rem;          space between bars and detail */
+  
 }
 
 /* LEFT column: gallery/bars */
@@ -499,7 +499,8 @@ ul {
   max-width: 100%;              /* readable width on desktop */
   box-sizing: border-box;
   padding: 1rem 1rem 1rem;
-  padding-left: 2rem;
+  padding-left: 4rem;
+  padding-right: 0rem;
   margin: 0 auto 2rem;           /* center the card */
   display: block;
   flex-direction: column;
@@ -537,11 +538,13 @@ ul {
 /* CV section (Experience / Education) */
 #project-detail-100 {
   --project-text-margin-right: 0rem;
+  padding: 1rem 1rem 1rem !important;
 }
 
 /* About + Contact section */
 #project-detail-101 {
   --project-text-margin-right: 0rem;
+  padding: 1rem 1rem 1rem !important;
 }
 
 
@@ -757,7 +760,6 @@ footer {
   filter: grayscale(100%);
 }
 
-/* === Hide scrollbars but keep scroll (split mode) === */
 .projects-shell.detail-open-split #gallery,
 .projects-shell.detail-open-split .project-detail-panel {
   scrollbar-width: none;        /* Firefox */
