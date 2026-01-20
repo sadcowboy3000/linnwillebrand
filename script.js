@@ -175,7 +175,7 @@ if (STATIC_IDS.includes(detailToShow.id)) {
 
   // Also scroll the page a bit so the section is nicely placed
   const rect = detailToShow.getBoundingClientRect();
-  //const targetY = window.scrollY + rect.top - 40;
+  const targetY = window.scrollY + rect.top - 40;
   window.scrollTo({ top: targetY, behavior: "smooth" });
 
     // Re-enable scroll on mobile when a static page (CV/About) is open
@@ -240,45 +240,55 @@ if (clickedCard) {
 
 
     
-  // 6) Scroll to the project (panel if scrollable, otherwise page)
-  if (detailPanel && detailPanel.contains(detailToShow)) {
+// 6) Scroll to the project (panel if scrollable, otherwise page)
+if (detailPanel && detailPanel.contains(detailToShow)) {
 
-    const ANIM_DURATION = 400;   // bar animation
-    const EXTRA_OFFSET  = 80;
+  const ANIM_DURATION = 400;   // bar animation
+  const EXTRA_OFFSET  = 80;
 
-    setTimeout(() => {
-      // Is the panel actually scrollable?
-      const panelScrollable =
-        detailPanel.scrollHeight > detailPanel.clientHeight + 5;
+  setTimeout(() => {
 
-      if (panelScrollable) {
-        // Scroll inside the right-hand panel (desktop / tall layouts)
-        const rawOffset = detailToShow.offsetTop;
-        const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
-        smoothScrollTo(detailPanel, targetOffset, 900);
-      } else {
-        // Fallback: scroll the whole page (some mobile layouts)
-        const rect = detailToShow.getBoundingClientRect();
-        const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
+    // ✅ WAIT for mobile browsers to apply "no-scroll" removal + layout
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
 
-        window.scrollTo({
-          top: targetY,
-          behavior: "smooth",
-        });
-      }
+        // Is the panel actually scrollable?
+        const panelScrollable =
+          detailPanel.scrollHeight > detailPanel.clientHeight + 5;
 
-      // After scroll: highlight bar, remove flags
-      setTimeout(() => {
-        setActiveBar(projectId);
-        projectCards.forEach(card =>
-          card.classList.remove("scrolling-project")
-        );
-        if (projectsShell) {
-          projectsShell.classList.remove("is-auto-scrolling");
+        if (panelScrollable) {
+          // Scroll inside the right-hand panel (desktop / tall layouts)
+          const rawOffset = detailToShow.offsetTop;
+          const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
+          smoothScrollTo(detailPanel, targetOffset, 900);
+        } else {
+          // Fallback: scroll the whole page (some mobile layouts)
+          const rect = detailToShow.getBoundingClientRect();
+          const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
+
+          window.scrollTo({
+            top: targetY,
+            behavior: "smooth",
+          });
         }
-      }, 600);
-    }, ANIM_DURATION);
-  }
+
+      });
+    });
+
+    // After scroll: highlight bar, remove flags
+    setTimeout(() => {
+      setActiveBar(projectId);
+      projectCards.forEach(card =>
+        card.classList.remove("scrolling-project")
+      );
+      if (projectsShell) {
+        projectsShell.classList.remove("is-auto-scrolling");
+      }
+    }, 600);
+
+  }, ANIM_DURATION);
+}
+
 
 
   });
@@ -393,31 +403,39 @@ const observer = new IntersectionObserver((entries) => {
     // 🔸 no preventDefault here – allows normal tap → click
   }
 
-  function onTouchMove(e) {
-    const t = e.touches[0];
-    const dx = Math.abs(t.clientX - startX);
-    const dy = Math.abs(t.clientY - startY);
+function onTouchMove(e) {
+  const t = e.touches[0];
+  const dx = t.clientX - startX;
+  const dy = t.clientY - startY;
 
-    // Only become a "swipe" if you move more than the threshold
-    if (!isSwiping && (dx > SWIPE_THRESHOLD || dy > SWIPE_THRESHOLD)) {
-      isSwiping = true;
-    }
+  const adx = Math.abs(dx);
+  const ady = Math.abs(dy);
 
-    if (!isSwiping) return; // still basically a tap, let it become a click
+  // require a bigger movement to count as swipe
+  const SWIPE_THRESHOLD = 18;
 
-    // Now it's a swipe: play the piano & stop scrolling
-    const x = t.clientX;
-    const y = t.clientY;
-    const el = document.elementFromPoint(x, y);
-    if (!el) return;
+  // Only treat as "piano swipe" when it's mostly horizontal
+  const isHorizontalSwipe = adx > SWIPE_THRESHOLD && adx > ady;
 
-    const projectEl = el.closest(".project");
-    if (projectEl && gallery.contains(projectEl)) {
-      activateProject(projectEl);
-    }
-
-    e.preventDefault(); // only block scroll when actually swiping
+  if (!isHorizontalSwipe) {
+    // Let normal scrolling/tapping happen
+    return;
   }
+
+  // From here: it's a real horizontal swipe
+  const x = t.clientX;
+  const y = t.clientY;
+  const el = document.elementFromPoint(x, y);
+  if (!el) return;
+
+  const projectEl = el.closest(".project");
+  if (projectEl && gallery.contains(projectEl)) {
+    activateProject(projectEl);
+  }
+
+  e.preventDefault(); // OK: we only block scroll during intentional horizontal swipe
+}
+
 
   function onTouchEnd() {
     // After swipe ends, remove the highlight
