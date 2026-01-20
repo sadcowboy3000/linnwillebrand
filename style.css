@@ -10,6 +10,7 @@
 
 :root {
   --project-text-margin-right: 5vw;
+  --project-text-margin-left: 5vw;
   
 }
 
@@ -531,12 +532,13 @@ ul {
 
 .project-description {
   margin-right: var(--project-text-margin-right);
+  margin-left: var(--project-text-margin-left);
   font-size: 1.2rem;
   line-height: 1.5;
   color: #000000;
   margin-bottom: 2rem;
   padding-left: 0rem;                    /* padding handled by .project-detail */
-  text-align: center;
+  text-align: left;
 
 }
 
