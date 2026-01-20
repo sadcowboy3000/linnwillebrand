@@ -893,7 +893,7 @@ body:has(.projects-shell.detail-open-split) {
   /* ---------- MOBILE NAV ---------- */
 
   .title-container {
-    font-size: 4vw;
+    font-size: 2vw;
   }
 
   .nav-row {
@@ -964,4 +964,4 @@ body:has(.projects-shell.detail-open-split) {
 
 
 
-
+html, body { overflow-x: hidden; }

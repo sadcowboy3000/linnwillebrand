@@ -401,21 +401,15 @@ function onTouchMove(e) {
   const adx = Math.abs(dx);
   const ady = Math.abs(dy);
 
-  // require a bigger movement to count as swipe
   const SWIPE_THRESHOLD = 18;
 
-  // Only treat as "piano swipe" when it's mostly horizontal
+  // Only count as "piano swipe" if it's clearly horizontal.
+  // This prevents killing taps + normal vertical scrolling.
   const isHorizontalSwipe = adx > SWIPE_THRESHOLD && adx > ady;
 
-  if (!isHorizontalSwipe) {
-    // Let normal scrolling/tapping happen
-    return;
-  }
+  if (!isHorizontalSwipe) return;
 
-  // From here: it's a real horizontal swipe
-  const x = t.clientX;
-  const y = t.clientY;
-  const el = document.elementFromPoint(x, y);
+  const el = document.elementFromPoint(t.clientX, t.clientY);
   if (!el) return;
 
   const projectEl = el.closest(".project");
@@ -423,8 +417,9 @@ function onTouchMove(e) {
     activateProject(projectEl);
   }
 
-  e.preventDefault(); // OK: we only block scroll during intentional horizontal swipe
+  e.preventDefault();
 }
+
 
 
   function onTouchEnd() {
