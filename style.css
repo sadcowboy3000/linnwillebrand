@@ -8,9 +8,9 @@
 }
 
 
-
 :root {
   --project-text-margin-right: 5vw;
+  
 }
 
 
@@ -156,10 +156,12 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  text-align: left !important;
 }
 
 .two-column h2 {
   font-size: 2rem !important;
+  
   
   
   font-weight: normal;
@@ -239,7 +241,7 @@ ul {
 /* Hover OR touch-hover: grow bar + reveal image */
 .project:hover,
 .project.touch-hover {
-  height: 40vh;
+  height: 30vh;
   border-color: #1d1d1d;
 }
 
@@ -532,13 +534,15 @@ ul {
   margin-right: var(--project-text-margin-right);
   font-size: 1.2rem;
   line-height: 1.5;
-  color: #292929;
+  color: #000000;
   margin-bottom: 2rem;
-  padding: 0;                    /* padding handled by .project-detail */
+  padding-left: 0rem;                    /* padding handled by .project-detail */
+  text-align: center;
 
 }
 
 .project-description h2 {
+  
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(0, 0, 0);
   font-size: 2rem;
