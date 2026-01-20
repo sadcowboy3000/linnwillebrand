@@ -12,7 +12,7 @@
 
 
 :root {
-  --project-text-margin-right: 30vw;
+  --project-text-margin-right: 5vw;
 }
 
 
@@ -696,14 +696,14 @@ iframe {
 /* Optional: change the label when open (simple approach) */
 .project-details[open] .project-summary::after {
   font-family: Arial, Helvetica, sans-serif !important;
-  content: "less info please";
+  content: "(less info please)";
 
   margin-left: 1rem;
 
 }
 .project-summary::after {
   font-family: Arial, Helvetica, sans-serif !important;
-  content: "more info";
+  content: "(more info)";
 
   margin-left: 1rem;
 }
