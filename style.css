@@ -156,12 +156,11 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  text-align: left !important;
+  text-align: left;
 }
 
 .two-column h2 {
   font-size: 2rem !important;
-  
   
   
   font-weight: normal;
@@ -521,7 +520,7 @@ ul {
   max-width: 100%;              /* readable width on desktop */
   box-sizing: border-box;
   padding: 1rem 1rem 1rem;
-  padding-left: 3rem;
+  padding-left: 5rem;
   padding-right: 0rem;
   margin: 0 auto 2rem;           /* center the card */
   display: block;
@@ -822,6 +821,19 @@ footer {
   filter: grayscale(100%);
 }
 
+.img-container{
+  width: 50vw;
+  height:auto;
+  overflow: hidden;
+  align-items: center;
+}
+
+.img-container img{
+    width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
 
 
 
@@ -988,7 +1000,3 @@ footer {
     display: none !important;
   }
 }
-
-
-
-html, body { overflow-x: hidden; }
