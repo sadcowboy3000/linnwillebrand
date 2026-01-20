@@ -7,20 +7,30 @@
   box-sizing: border-box;
 }
 
+
+
+
+
 :root {
-  --project-text-margin-right: 0vw;
+  --project-text-margin-right: 30vw;
 }
 
 
 body {
   font-family: "Times New Roman", Times, serif;
   background: #ffffff;
-  color: #333;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
 }
 
-main{
-  scrollbar-width: none;
+main {
+  overflow: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
 }
+
 
 /* =========================
    NAVBAR
@@ -29,7 +39,7 @@ main{
 #A2614359952.nav-shell {
   width: 100%;
   z-index: 299;
-  padding-top: .5rem;
+  
 
   position: relative;
   top: 0;
@@ -40,6 +50,7 @@ main{
 .title-container {
   font-size: 1.5vw;
   margin-top: .5rem;
+  
 }
 
 /* Rad med allt i */
@@ -47,7 +58,9 @@ main{
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding-top: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   gap: 0.5rem;
 }
 
@@ -67,19 +80,28 @@ main{
   gap: 1rem;                        
   align-items: center;
   white-space: nowrap;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
 }
 
 /* Länkarna */
 .main-nav {
   cursor: pointer;
-  text-decoration: underline;
+
   color: inherit;
 }
 
 #title_text {
-  color: blue;
+  color: rgb(0, 0, 0);
   font-weight: 500;
   white-space: nowrap;  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+}
+
+ a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .main-nav:hover,
@@ -132,16 +154,16 @@ main {
    ========================== */
 
 .two-column {
-  padding: 1rem;
+  padding-left: 5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr, 1fr;
   gap: 2rem;
 }
 
 .two-column h2 {
-  font-size: 1.3rem !important;
-  text-decoration: underline;
-  color: blue;
+  font-size: 2rem !important;
+  
+  
   font-weight: normal;
 }
 
@@ -219,8 +241,8 @@ ul {
 /* Hover OR touch-hover: grow bar + reveal image */
 .project:hover,
 .project.touch-hover {
-  height: 300px;
-  border-color: #000;
+  height: 40vh;
+  border-color: #1d1d1d;
 }
 
 .project:hover .project-image,
@@ -309,6 +331,7 @@ ul {
 }
 
 .menu-instruction span{
+  font-family: Arial, Helvetica, sans-serif;
   align-items: center;
   text-decoration: none;
   color: rgb(0, 0, 0) !important;
@@ -398,7 +421,8 @@ ul {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  column-gap: 1.5rem;          /* space between bars and detail */
+  /* column-gap: 1.5rem;          space between bars and detail */
+  
 }
 
 /* LEFT column: gallery/bars */
@@ -452,6 +476,7 @@ ul {
   overflow-y: auto;
 }
 
+
 /* =========================
    Contact box
    ========================== */
@@ -493,9 +518,11 @@ ul {
   background: #ffffff;
   /*border: 1px solid #000;*/
   width: 100%;
-  max-width: 100vw;              /* readable width on desktop */
+  max-width: 100%;              /* readable width on desktop */
   box-sizing: border-box;
   padding: 1rem 1rem 1rem;
+  padding-left: 3rem;
+  padding-right: 0rem;
   margin: 0 auto 2rem;           /* center the card */
   display: block;
   flex-direction: column;
@@ -505,17 +532,18 @@ ul {
 
 .project-description {
   margin-right: var(--project-text-margin-right);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1.5;
-  color: #000;
+  color: #292929;
   margin-bottom: 2rem;
   padding: 0;                    /* padding handled by .project-detail */
+
 }
 
 .project-description h2 {
   font-family: Arial, Helvetica, sans-serif;
-  color: blue;
-  font-size: 3rem;
+  color: rgb(0, 0, 0);
+  font-size: 2rem;
 }
 
 .project-description p {
@@ -533,11 +561,13 @@ ul {
 /* CV section (Experience / Education) */
 #project-detail-100 {
   --project-text-margin-right: 0rem;
+  padding: 1rem 1rem 1rem !important;
 }
 
 /* About + Contact section */
 #project-detail-101 {
   --project-text-margin-right: 0rem;
+  padding: 1rem 1rem 1rem !important;
 }
 
 
@@ -640,6 +670,44 @@ iframe {
   width: 100%;
   height: auto;
 }
+
+
+/* =========================
+   Project details <details> element
+   ========================== */
+
+
+.project-summary {
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+  
+}
+
+/* Optional: remove the default triangle marker (varies by browser) */
+.project-details summary {
+  list-style: none;
+}
+.project-details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Optional: change the label when open (simple approach) */
+.project-details[open] .project-summary::after {
+  font-family: Arial, Helvetica, sans-serif !important;
+  content: "less info please";
+
+  margin-left: 1rem;
+
+}
+.project-summary::after {
+  font-family: Arial, Helvetica, sans-serif !important;
+  content: "more info";
+
+  margin-left: 1rem;
+}
+
 
 /* =========================
    Overlay images
@@ -755,14 +823,18 @@ footer {
 
 
 
+
+
+
 /* =========================
    Responsive tweaks
    ========================== */
 
 @media (max-width: 768px) {
+    html.no-scroll,
     body.no-scroll {
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
     }
 
   .image-grid-1 {
@@ -827,8 +899,16 @@ footer {
   }
 
   .two-column {
+    justify-content: center;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    padding: 0%;
+    padding-right: 40%;
+
+  }
+   .two-column h2 {
+    font-size: 5dvw !important;
+
   }
 
   /* ---------- MOBILE NAV ---------- */
@@ -903,3 +983,6 @@ footer {
   }
 }
 
+
+
+html, body { overflow-x: hidden; }

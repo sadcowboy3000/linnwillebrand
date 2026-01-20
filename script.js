@@ -481,3 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lightbox.classList.add("hidden");
   });
 });
+
+
+
+
