@@ -240,55 +240,45 @@ if (clickedCard) {
 
 
     
-// 6) Scroll to the project (panel if scrollable, otherwise page)
-if (detailPanel && detailPanel.contains(detailToShow)) {
+  // 6) Scroll to the project (panel if scrollable, otherwise page)
+  if (detailPanel && detailPanel.contains(detailToShow)) {
 
-  const ANIM_DURATION = 400;   // bar animation
-  const EXTRA_OFFSET  = 80;
+    const ANIM_DURATION = 400;   // bar animation
+    const EXTRA_OFFSET  = 80;
 
-  setTimeout(() => {
-
-    // ✅ WAIT for mobile browsers to apply "no-scroll" removal + layout
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-
-        // Is the panel actually scrollable?
-        const panelScrollable =
-          detailPanel.scrollHeight > detailPanel.clientHeight + 5;
-
-        if (panelScrollable) {
-          // Scroll inside the right-hand panel (desktop / tall layouts)
-          const rawOffset = detailToShow.offsetTop;
-          const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
-          smoothScrollTo(detailPanel, targetOffset, 900);
-        } else {
-          // Fallback: scroll the whole page (some mobile layouts)
-          const rect = detailToShow.getBoundingClientRect();
-          const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
-
-          window.scrollTo({
-            top: targetY,
-            behavior: "smooth",
-          });
-        }
-
-      });
-    });
-
-    // After scroll: highlight bar, remove flags
     setTimeout(() => {
-      setActiveBar(projectId);
-      projectCards.forEach(card =>
-        card.classList.remove("scrolling-project")
-      );
-      if (projectsShell) {
-        projectsShell.classList.remove("is-auto-scrolling");
+      // Is the panel actually scrollable?
+      const panelScrollable =
+        detailPanel.scrollHeight > detailPanel.clientHeight + 5;
+
+      if (panelScrollable) {
+        // Scroll inside the right-hand panel (desktop / tall layouts)
+        const rawOffset = detailToShow.offsetTop;
+        const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
+        smoothScrollTo(detailPanel, targetOffset, 900);
+      } else {
+        // Fallback: scroll the whole page (some mobile layouts)
+        const rect = detailToShow.getBoundingClientRect();
+        const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
+
+        window.scrollTo({
+          top: targetY,
+          behavior: "smooth",
+        });
       }
-    }, 600);
 
-  }, ANIM_DURATION);
-}
-
+      // After scroll: highlight bar, remove flags
+      setTimeout(() => {
+        setActiveBar(projectId);
+        projectCards.forEach(card =>
+          card.classList.remove("scrolling-project")
+        );
+        if (projectsShell) {
+          projectsShell.classList.remove("is-auto-scrolling");
+        }
+      }, 600);
+    }, ANIM_DURATION);
+  }
 
 
   });
