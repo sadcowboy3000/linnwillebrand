@@ -532,7 +532,7 @@ ul {
 
 .project-description {
   margin-right: var(--project-text-margin-right);
-  margin-left: var(--project-text-margin-left);
+
   font-size: 1.2rem;
   line-height: 1.5;
   color: #000000;
@@ -563,6 +563,8 @@ ul {
 
 /* CV section (Experience / Education) */
 #project-detail-100 {
+  --project-text-margin-left: 0rem;
+
   --project-text-margin-right: 0rem;
   padding: 1rem 1rem 1rem !important;
 }
@@ -570,6 +572,7 @@ ul {
 /* About + Contact section */
 #project-detail-101 {
   --project-text-margin-right: 0rem;
+--project-text-margin-left: 0rem;
   padding: 1rem 1rem 1rem !important;
 }
 
