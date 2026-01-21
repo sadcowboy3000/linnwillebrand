@@ -18,14 +18,14 @@
 body {
   font-family: "Times New Roman", Times, serif;
   background: #ffffff;
-  overflow: hidden;
+  overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   
 }
 
 main {
-  overflow: hidden;
+  overflow-y: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;
 }
@@ -521,7 +521,7 @@ ul {
   max-width: 100%;              /* readable width on desktop */
   box-sizing: border-box;
   padding: 1rem 1rem 1rem;
-  padding-left: 5rem;
+  padding-left: 10rem;
   padding-right: 0rem;
   margin: 0 auto 2rem;           /* center the card */
   display: block;
