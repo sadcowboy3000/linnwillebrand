@@ -18,17 +18,21 @@
 body {
   font-family: "Times New Roman", Times, serif;
   background: #ffffff;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  
+
+  /* ✅ allow scrolling by default */
+  overflow-y: auto;
+
+  /* hide scrollbar */
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge legacy */
 }
+body::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
 main {
-  overflow-y: hidden;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;
+  /* ✅ don’t globally block scrolling */
+  overflow: visible;
 }
+
 
 
 /* =========================
@@ -901,7 +905,7 @@ footer {
     max-width: 100%;
     max-height: none;
     height: auto;
-    overflow: visible;      /* whole page scrolls normally */
+    overflow: visible !important;      /* whole page scrolls normally */
   }
 
   .project-detail {
@@ -918,7 +922,7 @@ footer {
 
   .two-column {
     justify-content: center;
-    grid-template-columns: 1fr, 2fr;
+    grid-template-columns: 1fr, 1fr;
     gap: 1.5rem;
     padding: 0%;
     padding-right: 40%;
@@ -932,7 +936,11 @@ footer {
   /* ---------- MOBILE NAV ---------- */
 
   .title-container {
-    font-size: 4vw;
+    font-size: 2vw;
+  }
+
+  #title_text {
+    font-size: 1.5rem;
   }
 
   .nav-row {
@@ -976,7 +984,7 @@ footer {
 /* Softer hover / touch-hover on small screens (no giant text) */
 .project:hover .project-meta span,
 .project.touch-hover .project-meta span {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   background-color: white;
   color: rgb(255, 255, 255);
 }
@@ -984,13 +992,14 @@ footer {
 .project.touch-hover {
   height: 200px;
   border-color: #000;
+
 }
 
 
   .projects-shell.detail-open-split .project-meta {
   
   font-size: 3vw;
-  grid-template-columns: minmax(6vw, 1fr) minmax(9vw, 1fr) minmax(6vw, 1fr);
+  grid-template-columns: minmax(6vw, 1fr) minmax(5vw, 1fr) minmax(6vw, 1fr);
 }
 #contact-block {
     display: none !important;
