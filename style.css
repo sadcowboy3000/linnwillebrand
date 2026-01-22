@@ -843,6 +843,13 @@ footer {
   object-fit: fill;
 }
 
+  .arrow-mobile {
+    margin-top: 1rem;
+    width: 100%;
+    display: none;
+    justify-content: center; /* ✅ pushes the button to the right */
+  }
+
 
 
 
@@ -853,11 +860,17 @@ footer {
    ========================== */
 
 @media (max-width: 768px) {
-    html.no-scroll,
-    body.no-scroll {
-    overflow: hidden;
+  html.no-scroll,
+  body.no-scroll {
+    overflow: hidden !important;
     height: 100dvh;
     }
+
+    body.no-scroll {
+    position: fixed;
+    width: 100%;
+    left: 0;
+  }
 
   .image-grid-1 {
   display: grid;
@@ -995,6 +1008,12 @@ footer {
 
 }
 
+#project-detail-100 .two-column,
+  #project-detail-101 .two-column {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
 
   .projects-shell.detail-open-split .project-meta {
   
@@ -1011,6 +1030,12 @@ footer {
   }
 
     #arrow {
-    display: none !important;
+    display: hidden !important;
+  }
+  .arrow-mobile {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* ✅ pushes the button to the right */
   }
 }
