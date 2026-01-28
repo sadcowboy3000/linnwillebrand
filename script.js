@@ -16,10 +16,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const isTouchDevice =
   "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-// On mobile: start with no scroll on landing
-if (isTouchDevice) {
+  function lockScroll() {
   document.body.classList.add("no-scroll");
 }
+
+function unlockScroll() {
+  document.body.classList.remove("no-scroll");
+}
+
+// On mobile: lock scroll ONLY if we're on the landing state
+if (isTouchDevice) {
+  const cvOrAboutIsVisible = STATIC_IDS.some(id => {
+    const el = document.getElementById(id);
+    return el && !el.classList.contains("hidden");
+  });
+
+  const anyProjectIsVisible = Array.from(projectDetails).some(
+    s => !s.classList.contains("hidden") && !STATIC_IDS.includes(s.id)
+  );
+
+  // If CV/About is visible OR a project is open → allow scrolling
+  if (cvOrAboutIsVisible || anyProjectIsVisible) {
+    unlockScroll();
+  } else {
+    // Otherwise we're on landing → lock scroll
+    lockScroll();
+  }
+}
+
 
 
   // Overlay images config (unchanged, in case you re-enable later)
@@ -179,6 +203,7 @@ if (STATIC_IDS.includes(detailToShow.id)) {
   const rect = detailToShow.getBoundingClientRect();
   //const targetY = window.scrollY + rect.top - 40;
   window.scrollTo({ top: targetY, behavior: "smooth" });
+
 
     // Re-enable scroll on mobile when a static page (CV/About) is open
   if (isTouchDevice) {
