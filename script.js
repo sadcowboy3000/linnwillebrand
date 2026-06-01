@@ -504,6 +504,40 @@ document.addEventListener("DOMContentLoaded", () => {
   lightbox.addEventListener("click", () => {
     lightbox.classList.add("hidden");
   });
+
+  // ------------- "MORE INFO" LETTER WAVE -------------
+  // Inject the label as per-letter spans so each letter can wave on the
+  // Y axis with a staggered delay (a horizontal wave, first → last letter).
+  function buildWaveLabel(summary, text) {
+    summary.textContent = "";
+    let i = 0;
+    for (const ch of text) {
+      if (ch === " ") {
+        // keep spacing as a plain text node (don't animate spaces),
+        // but still advance the phase so the wave stays continuous
+        summary.appendChild(document.createTextNode(" "));
+      } else {
+        const span = document.createElement("span");
+        span.className = "wave-letter";
+        span.textContent = ch;
+        span.style.setProperty("--i", i);
+        summary.appendChild(span);
+      }
+      i++;
+    }
+  }
+
+  document.querySelectorAll(".project-details").forEach(details => {
+    const summary = details.querySelector(".project-summary");
+    if (!summary) return;
+
+    const labelFor = open => (open ? "(less info please)" : "(more info)");
+
+    buildWaveLabel(summary, labelFor(details.open));
+    details.addEventListener("toggle", () => {
+      buildWaveLabel(summary, labelFor(details.open));
+    });
+  });
 });
 
 const toggle = document.getElementById("darkModeToggle");

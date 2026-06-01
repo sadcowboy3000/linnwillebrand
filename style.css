@@ -729,15 +729,33 @@ iframe {
   display: none;
 }
 
-/* Optional: change the label when open (simple approach) */
-.project-details[open] .project-summary::after {
+/* The "(more info)" / "(less info please)" label text is injected as
+   per-letter spans by script.js so each letter can wave on the Y axis. */
+.project-summary {
   font-family: Arial, Helvetica, sans-serif !important;
-  content: "(less info please)";
-
 }
-.project-summary::after {
-  font-family: Arial, Helvetica, sans-serif !important;
-  content: "(more info)";
+
+/* Each letter: up-down on Y, staggered by --i so the wave travels
+   left → right across the word, then rests = the "beat". */
+.wave-letter {
+  display: inline-block;
+  animation: letter-wave 2.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+
+@keyframes letter-wave {
+  0%   { transform: translateY(0); }
+  10%  { transform: translateY(-4px); }
+  20%  { transform: translateY(0); }
+  /* rest for the remainder of the cycle → the beat */
+  100% { transform: translateY(0); }
+}
+
+/* respect users who prefer no motion */
+@media (prefers-reduced-motion: reduce) {
+  .wave-letter {
+    animation: none;
+  }
 }
 
 
