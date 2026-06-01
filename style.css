@@ -883,6 +883,13 @@ footer {
    ========================== */
 
 @media (max-width: 768px) {
+  footer {
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+  }
+
   html.no-scroll,
   body.no-scroll {
     overflow: hidden !important;
@@ -976,7 +983,7 @@ footer {
   }
 
   #title_text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .nav-row {
@@ -985,25 +992,24 @@ footer {
   }
 
   .nav-main {
-    flex-wrap: nowrap;         /* now allow wrapping */
+    flex-wrap: nowrap;         /* keep the whole navbar on one line */
+    white-space: nowrap;
     gap: 0.5rem;
-    font-size: .3rem;
   }
 
   .nav-main span {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .tagline {
-    visibility: hidden;
-    flex-basis: auto;        /* no forced new line */
-    white-space: nowrap;     /* stay on one line */
-    overflow: hidden;
-    text-overflow: ellipsis; /* add "…" if too long */
+    display: none;           /* remove from layout so it reserves no space */
   }
 
   .left-links {
-    margin-left: 0;       /* right-align links */
+    margin-left: 0;
+    gap: 0.75rem;
+    font-size: 1rem;
+    white-space: nowrap;
   }
 
   .project-meta {

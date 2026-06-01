@@ -199,16 +199,12 @@ if (STATIC_IDS.includes(detailToShow.id)) {
     detailPanel.scrollTop = 0;
   }
 
-  // Also scroll the page a bit so the section is nicely placed
-  const rect = detailToShow.getBoundingClientRect();
-  //const targetY = window.scrollY + rect.top - 40;
-  window.scrollTo({ top: targetY, behavior: "smooth" });
-
-
-    // Re-enable scroll on mobile when a static page (CV/About) is open
+  // Re-enable scroll on mobile when a static page (CV/About) is open
   if (isTouchDevice) {
     document.body.classList.remove("no-scroll");
   }
+
+  // No jump-scroll for CV/About — the section just opens in place.
 
   return;
 }
@@ -284,9 +280,12 @@ if (clickedCard) {
         const targetOffset = Math.max(rawOffset - EXTRA_OFFSET, 0);
         smoothScrollTo(detailPanel, targetOffset, 900);
       } else {
-        // Fallback: scroll the whole page (some mobile layouts)
+        // Fallback: scroll the whole page (mobile layouts).
+        // Land on the project's header — nothing is pinned at the top here,
+        // so use a small offset instead of the desktop EXTRA_OFFSET.
+        const PAGE_OFFSET = 8;
         const rect = detailToShow.getBoundingClientRect();
-        const targetY = window.scrollY + rect.top - EXTRA_OFFSET;
+        const targetY = Math.max(window.scrollY + rect.top - PAGE_OFFSET, 0);
 
         window.scrollTo({
           top: targetY,
